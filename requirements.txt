@@ -1,0 +1,12 @@
+arrow
+Flask
+Flask-OpenID
+Flask-SQLAlchemy
+kitchen
+fedmsg>=0.7.0
+docutils
+backports.lzma
+lockfile
+dogpile.cache
+bunch
+fedmsg_meta_fedora_infrastructure
