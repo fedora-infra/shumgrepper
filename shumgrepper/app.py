@@ -1,5 +1,4 @@
 import flask
-
 import fedmsg
 import fedmsg.meta
 
