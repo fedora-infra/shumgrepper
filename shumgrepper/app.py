@@ -14,16 +14,11 @@ session = sm.create_session(
     create=True,
     )
 
-@app.route('/summershum/')
-@app.route('/summershum')
-def summershum():
-    sha1sum = flask.request.args.get('sha1sum', None)
-    if sha1sum:
-        message = sm.File.by_sha1(session, sha1sum)
+# request files by sha1sum
+@app.route('/sha1/<sha1>')
+@app.route('/sha1/<sha1>')
+def sha1sum(sha1):
+    message = sm.File.by_sha1(session, sha1)
 
-    md5sum = flask.request.args.get('md5sum', None)
-    if md5sum:
-        message = sm.File.by_md5(session, md5sum)
-
-    print message
+    return flask.render_template('files.html', all_files=message)
 
