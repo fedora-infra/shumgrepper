@@ -11,7 +11,7 @@ Hacking on shumgrepper
     
 #####Install virtualenvwrapper:
 
-   $ sudo yum install -y python-virtualenvwrapper
+    $ sudo yum install -y python-virtualenvwrapper
 
 ###Setting up the stack
 
@@ -31,18 +31,18 @@ Hacking on shumgrepper
 
 ###Query the database
 
-#####Query by sha1sum:
+#####by sha1sum:
 
 In a browser, visit http://localhost:5000/sha1/'sha1sum'
 
-#####Query by sha256sum:
+#####by sha256sum:
 
    In a browser, visit http://localhost:5000/sha256/'sha256sum'
 
-#####Query by md5sum:
+#####by md5sum:
 
    In a browser, visit http://localhost:5000/md5/'md5sum'
 
-#####Query by tarsum:
+#####by tarsum:
 
    In a browser, visit http://localhost:5000/tar/'tarsum'
