@@ -3,17 +3,17 @@
   <head>
     <title>Shumgrepper</title>
     <style type="text/css"> 
-        th {
-            height: 50px;
-            font: bold;
-        }
+    th {
+        height: 50px;
+        font: bold;
+    }
 
-        table,th,td
-        {
-            height: 30px;
-            border:2px solid black;
-            border-collapse:collapse;
-        }
+    table,th,td
+    {
+        height: 30px;
+        border:2px solid black;
+        border-collapse:collapse;
+    }
     </style>
   </head>
   <body>
@@ -24,11 +24,11 @@
         <th>SHA256SUM</th>
     </tr>
     {% for a_file in all_files %}
-    <tr>
-        <td>{{ a_file.tar_file }}</td>
-        <td>{{ a_file.filename }}</td>	    
-        <td>{{ a_file.sha256sum}}</td>
-    </tr>
+        <tr>
+            <td>{{ a_file.tar_file }}</td>
+            <td>{{ a_file.filename }}</td>
+            <td>{{ a_file.sha256sum}}</td>
+        </tr>
     {% endfor %}
   </body>
 </html>
