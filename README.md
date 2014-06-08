@@ -25,8 +25,9 @@ Hacking on shumgrepper
     $ pip install -r requirements.txt
  
 #####Setting up database:
-
-Clone summershum repository https://github.com/fedora-infra/summershum
+  
+Clone summershum repository https://github.com/fedora-infra/summershum:
+    
     $ cd summershum
     $ python setup.py build
     $ python setup.py install
