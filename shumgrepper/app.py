@@ -56,3 +56,22 @@ def package(package):
 
     return flask.render_template('filename.html', all_files=message, argument=package, count=len(message))
 
+@app.route('/package/compare/<package1>/<package2>')
+def compare(package1, package2):
+    message1 = sm.File.by_package(session, package1)
+    message2 = sm.File.by_package(session, package2)
+
+    filename1, filename2, same_files = {}, {}, []
+
+    for msg in message1:
+        filename1[msg.sha1sum] = msg.filename
+
+    for msg in message2:
+        filename2[msg.sha1sum] = msg.filename
+
+    for key,value in filename1.iteritems():
+        if key in filename2: 
+            same_files.append(value) 
+
+    return flask.render_template('same_files.html', all_files=same_files, argument1=package1, argument2=package2, count=len(same_files))
+
