@@ -1,8 +1,14 @@
+import json
 import flask
 import fedmsg
 import fedmsg.meta
 
 import summershum.model as sm
+
+from shumgrepper.util import (
+    request_wants_html,
+    JSONEncoder,
+)
 
 app = flask.Flask(__name__)
 
@@ -19,8 +25,24 @@ session = sm.create_session(
 @app.route('/sha1/<sha1>')
 def sha1sum(sha1):
     message = sm.File.by_sha1(session, sha1)
+    mimetype = flask.request.headers.get('Accept')
+    #converts message into list of dict
+    msg_list = JSONEncoder(message)
 
-    return flask.render_template('files.html', all_files=message)
+    if mimetype == '*/*':
+        mimetype = 'application/json'
+
+    if request_wants_html():
+        return flask.render_template(
+            'files.html',
+            all_files=msg_list
+        )
+    else:
+        message_json = json.dumps(msg_list)
+        return flask.Response(
+            response=message_json,
+            mimetype=mimetype,
+        )
 
 
 # request files by md5sum
