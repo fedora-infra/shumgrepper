@@ -2,12 +2,17 @@
 <html lang="en">
   <head>
     <title>Shumgrepper</title>
-    <h2> Listing filesname which are present in both {{argument1}} and {{argument2}} packages </h2>
+    <h2> Listing filesname common in:</h2>
+    <ul>
+    {% for package in package_list %}
+        <li>{{ package }}</li>
+    {% endfor %}
+    </ul>
   </head>
   <body>
     <h3>Total number of files are {{count}}</h3>
     {% for a_file in all_files %}
-            <li>{{ a_file }}</li>
+        <li>{{ a_file }}</li>
     {% endfor %}
   </body>
 </html>
