@@ -3,6 +3,7 @@ import flask
 import fedmsg
 import fedmsg.meta
 
+from forms import InputForm
 import summershum.model as sm
 
 from shumgrepper.util import (
@@ -78,22 +79,40 @@ def package(package):
 
     return flask.render_template('filename.html', all_files=message, argument=package, count=len(message))
 
-@app.route('/package/compare/<package1>/<package2>')
-def compare(package1, package2):
-    message1 = sm.File.by_package(session, package1)
-    message2 = sm.File.by_package(session, package2)
 
-    filename1, filename2, same_files = {}, {}, []
+#compare and return filenames common in packages
+@app.route('/compare', methods = ['GET', 'POST'])
+def compare():
+    form = InputForm(flask.request.form)
 
-    for msg in message1:
-        filename1[msg.sha1sum] = msg.filename
+    if flask.request.method == "POST" and form.is_submitted():
+        package_list = form.package.data.split(',')
+        final_list = []
 
-    for msg in message2:
-        filename2[msg.sha1sum] = msg.filename
+        for a_package in package_list:
+            message = sm.File.by_package(session, a_package)
+            if message:
+                sha1sum_list = []
+                for msg in message:
+                    sha1sum_list.append(msg.sha1sum)
+                final_list.append(sha1sum_list)
 
-    for key,value in filename1.iteritems():
-        if key in filename2: 
-            same_files.append(value) 
+        common_list = set(final_list[0]).intersection(*final_list)
 
-    return flask.render_template('same_files.html', all_files=same_files, argument1=package1, argument2=package2, count=len(same_files))
+        common_filenames = []
+        for sha1sum in common_list:
+            for msg in message:
+                if sha1sum == msg.sha1sum:
+                    common_filenames.append(msg.filename)
+
+        return flask.render_template(
+            'same_files.html',
+            all_files = common_filenames, 
+            count=len(common_filenames),
+            package_list = package_list,
+        )
+    return flask.render_template(
+            'input.html',
+            form = form
+    )
 
