@@ -20,19 +20,23 @@
   <body>
     <table style="width:1200px">
     <tr>
-        <th>TARFILE</th>
-        <th>MD5SUM</th>
         <th>FILENAME</th>
-        <th>PACKAGE NAME</th>
         <th>SHA256SUM</th>
-        <th>TARSUM</th>
         <th>SHA1SUM</th>
+        <th>MD5SUM</th>
+        <th>PACKAGE NAME</th>
+        <th>TARFILE</th>
+        <th>TARSUM</th>
     </tr>
     {% for a_file in all_files %}
         <tr> 
-            {% for value in a_file.values() %}
-                <td>{{ value }}</td>
-            {% endfor %}
+            <td>{{ a_file.filename }}</td>
+            <td>{{ a_file.sha256sum }}</td>
+            <td>{{ a_file.sha1sum }}</td>
+            <td>{{ a_file.md5sum }}</td>
+            <td>{{ a_file.pkg_name }}</td>
+            <td>{{ a_file.tar_file }}</td>
+            <td>{{ a_file.tar_sum }}</td>
         </tr>
     {% endfor %}
   </body>
