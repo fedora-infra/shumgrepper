@@ -113,9 +113,26 @@ def tar_sum(tar):
 # list filenames present in a package
 @app.route('/package/<package>/filenames')
 def package(package):
-    message = sm.File.by_package(session, package)
+    messages = sm.File.by_package(session, package)
+    file_list = []
+    for message in messages:
+        file_list.append(message.filename)
 
-    return flask.render_template('filename.html', all_files=message, argument=package, count=len(message))
+    mimetype = flask.request.headers.get('Accept')
+    if mimetype == '*/*':
+        mimetype = 'application/json'
+
+    if request_wants_html():
+        return flask.render_template(
+            'filename.html',
+            all_files=file_list,
+            count=len(file_list),
+        )
+    else:
+        return flask.Response(
+            response=json.dumps(file_list),
+            mimetype=mimetype,
+        )
 
 
 #compare and return filenames common in packages
