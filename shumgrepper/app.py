@@ -9,6 +9,7 @@ import summershum.model as sm
 from shumgrepper.util import (
     request_wants_html,
     JSONEncoder,
+    common_files,
 )
 
 app = flask.Flask(__name__)
@@ -27,7 +28,6 @@ def sha1sum(sha1):
     messages = sm.File.by_sha1(session, sha1)
     #converts message into list of dict
     msg_list = JSONEncoder(messages)
-
     mimetype = flask.request.headers.get('Accept')
     if mimetype == '*/*':
         mimetype = 'application/json'
@@ -138,36 +138,43 @@ def package(package):
 #compare and return filenames common in packages
 @app.route('/compare', methods = ['GET', 'POST'])
 def compare():
-    form = InputForm(flask.request.form)
 
-    if flask.request.method == "POST" and form.is_submitted():
-        package_list = form.package.data.split(',')
-        final_list = []
+    mimetype = flask.request.headers.get('Accept')
 
-        for a_package in package_list:
-            message = sm.File.by_package(session, a_package)
-            if message:
-                sha1sum_list = []
-                for msg in message:
-                    sha1sum_list.append(msg.sha1sum)
-                final_list.append(sha1sum_list)
+    if mimetype == '*/*':
+        mimetype = 'application/json'
 
-        common_list = set(final_list[0]).intersection(*final_list)
+    if request_wants_html():
+        form = InputForm(flask.request.form)
 
-        common_filenames = []
-        for sha1sum in common_list:
-            for msg in message:
-                if sha1sum == msg.sha1sum:
-                    common_filenames.append(msg.filename)
-
+        if flask.request.method == "POST" and form.is_submitted():
+            packages = form.package.data.split(',')
+            messages_list = []
+            for package in packages:
+                messages = sm.File.by_package(session, package)
+                if messages:
+                    messages_list.append(messages)
+            common_filenames = common_files(messages_list)
+            return flask.render_template(
+                'filename.html',
+                all_files = common_filenames,
+                count=len(common_filenames),
+            )
         return flask.render_template(
-            'same_files.html',
-            all_files = common_filenames, 
-            count=len(common_filenames),
-            package_list = package_list,
-        )
-    return flask.render_template(
             'input.html',
-            form = form
-    )
+            form = form,
+        )
+    else:
+        packages = flask.request.args.getlist('packages', None)
+        messages_list = []
+        for package in packages:
+            messages = sm.File.by_package(session, package)
+            if messages:
+                messages_list.append(messages)
+        common_filenames = common_files(messages_list)
+
+        return flask.Response(
+            response = json.dumps(common_filenames),
+            mimetype = mimetype,
+        )
 
