@@ -1,18 +1,19 @@
 import json
 import flask
 
-def JSONEncoder(message):
+def JSONEncoder(messages):
+    " Serialize collection in each message"
     msg_list = []
-    for msg in message:
-        new_dict = {}
-        new_dict['tar_file'] = msg.tar_file
-        new_dict['md5sum'] = msg.md5sum
-        new_dict['sha256sum'] = msg.sha256sum
-        new_dict['pkg_name'] = msg.pkg_name
-        new_dict['filename'] = msg.filename
-        new_dict['tar_sum'] = msg.tar_sum
-        new_dict['sha1sum'] = msg.sha1sum
-
+    for message in messages:
+        new_dict = dict(
+            tar_file = message.tar_file,
+            md5sum = message.md5sum,
+            sha256sum = message.sha256sum,
+            pkg_name = message.pkg_name,
+            filename = message.filename,
+            tar_sum = message.tar_sum,
+            sha1sum = message.sha1sum,
+        )
         msg_list.append(new_dict)
     return msg_list
 
