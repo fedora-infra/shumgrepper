@@ -23,13 +23,12 @@ session = sm.create_session(
 
 # request files by sha1sum
 @app.route('/sha1/<sha1>')
-@app.route('/sha1/<sha1>')
 def sha1sum(sha1):
-    message = sm.File.by_sha1(session, sha1)
-    mimetype = flask.request.headers.get('Accept')
+    messages = sm.File.by_sha1(session, sha1)
     #converts message into list of dict
-    msg_list = JSONEncoder(message)
+    msg_list = JSONEncoder(messages)
 
+    mimetype = flask.request.headers.get('Accept')
     if mimetype == '*/*':
         mimetype = 'application/json'
 
@@ -39,38 +38,77 @@ def sha1sum(sha1):
             all_files=msg_list
         )
     else:
-        message_json = json.dumps(msg_list)
         return flask.Response(
-            response=message_json,
+            response=json.dumps(msg_list),
             mimetype=mimetype,
         )
 
 
 # request files by md5sum
 @app.route('/md5/<md5>')
-@app.route('/md5/<md5>')
 def md5sum(md5):
-    message = sm.File.by_md5(session, md5)
+    messages = sm.File.by_md5(session, md5)
+    msg_list = JSONEncoder(messages)
 
-    return flask.render_template('files.html', all_files=message)
+    mimetype = flask.request.headers.get('Accept')
+    if mimetype == '*/*':
+        mimetype = 'application/json'
+
+    if request_wants_html():
+        return flask.render_template(
+            'files.html',
+            all_files=msg_list
+        )
+    else:
+        return flask.Response(
+            response=json.dumps(msg_list),
+            mimetype=mimetype,
+        )
 
 
 # request files by sha256sum
 @app.route('/sha256/<sha256>')
-@app.route('/sha256/<sha256>')
 def sha256sum(sha256):
-    message = sm.File.by_sha256(session, sha256)
+    messages = sm.File.by_sha256(session, sha256)
+    msg_list = JSONEncoder(messages)
 
-    return flask.render_template('files.html', all_files=message)
+    mimetype = flask.request.headers.get('Accept')
+    if mimetype == '*/*':
+        mimetype = 'application/json'
+
+    if request_wants_html():
+        return flask.render_template(
+            'files.html',
+            all_files=msg_list
+        )
+    else:
+        return flask.Response(
+            response=json.dumps(msg_list),
+            mimetype=mimetype,
+        )
 
 
 # request files by tarsum
 @app.route('/tar/<tar>')
-@app.route('/tar/<tar>')
 def tar_sum(tar):
-    message = sm.File.by_tar_sum(session, tar)
+    messages = sm.File.by_tar_sum(session, tar)
+    msg_list = JSONEncoder(messages)
 
-    return flask.render_template('files.html', all_files=message)
+    mimetype = flask.request.headers.get('Accept')
+    if mimetype == '*/*':
+        mimetype = 'application/json'
+
+    if request_wants_html():
+        return flask.render_template(
+            'files.html',
+            all_files=msg_list
+        )
+    else:
+        return flask.Response(
+            response=json.dumps(msg_list),
+            mimetype=mimetype,
+        )
+
 
 # list filenames present in a package
 @app.route('/package/<package>/filenames')
