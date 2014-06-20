@@ -22,6 +22,11 @@ session = sm.create_session(
     create=True,
     )
 
+@app.route('/')
+def home():
+    return flask.render_template('home.html')
+
+
 # request files by sha1sum
 @app.route('/sha1/<sha1>')
 def sha1sum(sha1):
