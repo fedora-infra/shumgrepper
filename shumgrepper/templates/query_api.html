@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+    .main {
+        margin: 60px 0;
+        text-align: center;
+        background-color: #F0F0F0;
+        border-radius: 0.4em;
+        padding-top: 0.4cm;
+        padding-bottom: 0.3cm;
+        padding-right, padding-left:0.2cm;
+    }
+</style>
+
+<div class="main">
+    <h1>A fedmsg Consumer</h1>
+    <p class="lead">Using HTTP GET requests, you can query for hashes
+    data from the <a href="http://fedmsg.com">fedmsg bus</a>:
+    by sha1sum, by sha256sum, by md5sum,by tarsum&hellip; 
+    and much more.</p>
+</div>
+
+<hr>
+
+<div class="row marketing">
+    <div class="col-md-12">
+        {{ docs }}
+    </div>
+</div>
+{% endblock %}
+
