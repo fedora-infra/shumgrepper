@@ -27,6 +27,19 @@ def home():
     return flask.render_template('home.html')
 
 
+@app.route('/packages')
+def packages():
+    packages = sm.File.packages(session)
+    package_list = []
+    for  package in packages:
+        package_list.append(package[0])
+
+    return flask.render_template(
+        'packages.html', 
+        packages = package_list
+    )
+
+
 # request files by sha1sum
 @app.route('/sha1/<sha1>')
 def sha1sum(sha1):

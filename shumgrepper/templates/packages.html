@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style type="text/css">
+        .header {
+            color: #808080;
+            padding-left: 20px;
+        }
+    </style>
+
+    <div class="header">
+      <h1> Packages </h1>
+    </div>
+    <ul>
+      {% for package in packages %}
+        <li>
+            <a href="{{ url_for('package', package=package) }}">{{package}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+{% endblock %}
+
