@@ -15,7 +15,7 @@ import summershum.model as sm
 from shumgrepper.util import (
     request_wants_html,
     JSONEncoder,
-    common_files,
+    uncommon_files,
 )
 
 app = flask.Flask(__name__)
@@ -251,12 +251,15 @@ def compare():
             for package in packages:
                 messages = sm.File.by_package(session, package)
                 if messages:
+                    messages = JSONEncoder(messages)
                     messages_list.append(messages)
-            common_filenames = common_files(messages_list)
+            uncommon_files_list = uncommon_files(messages_list)
+
             return flask.render_template(
-                'filename.html',
-                all_files = common_filenames,
-                count=len(common_filenames),
+                'compare_packages.html',
+                all_files = uncommon_files_list,
+                packages = packages,
+                length = len(packages),
             )
         return flask.render_template(
             'input.html',

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Shumgrepper</title>
+  </head>
+  <body>
+    {% for i in range(length) %}
+        <h3>{{ packages[i] }}</h3>
+        <ul>
+        {% for a_file in all_files[i] %}
+            <li>{{ a_file["filename"] }} ------ {{a_file["sha256sum"]}} </li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+  </body>
+</html>
+
