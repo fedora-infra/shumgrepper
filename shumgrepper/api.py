@@ -17,6 +17,7 @@ from shumgrepper import app, session
 from shumgrepper.util import (
     JSONEncoder,
     uncommon_files,
+    common_files,
 )
 
 
@@ -91,12 +92,12 @@ def api_package(package):
     )
 
 
-@app.route('/api/compare')
-def api_compare():
-    packages = flask.request.args.getlist('packages', None)
+@app.route('/api/compare/packages/uncommon')
+def api_compare_uncommon():
+    package = flask.request.args.getlist('packages', None)
     messages_list = []
-    for package in packages:
-        messages = sm.File.by_package(session, package)
+    for pkg in package:
+        messages = sm.File.by_package(session, pkg)
         if messages:
             messages = JSONEncoder(messages)
             messages_list.append(messages)
@@ -104,6 +105,23 @@ def api_compare():
 
     return flask.Response(
         response = json.dumps(uncommon_files_list),
+        mimetype = "application/json",
+    )
+
+
+@app.route('/api/compare/packages/common')
+def api_compare_common():
+    package = flask.request.args.getlist('packages', None)
+    messages_list = []
+    for pkg in package:
+        messages = sm.File.by_package(session, pkg)
+        if messages:
+            messages = JSONEncoder(messages)
+            messages_list.append(messages)
+    common_files_list = common_files(messages_list)
+
+    return flask.Response(
+        response = json.dumps(common_files_list),
         mimetype = "application/json",
     )
 
