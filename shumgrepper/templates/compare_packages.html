@@ -8,7 +8,7 @@
         <h3>{{ packages[i] }}</h3>
         <ul>
         {% for a_file in all_files[i] %}
-            <li>{{ a_file["filename"] }} ------ {{a_file["sha256sum"]}} </li>
+            <li>{{ a_file["filename"] }}</li>
         {% endfor %}
         </ul>
     {% endfor %}

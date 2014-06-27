@@ -16,6 +16,7 @@ import summershum.model as sm
 from shumgrepper.util import (
     JSONEncoder,
     uncommon_files,
+    common_files,
 )
 
 app = flask.Flask(__name__)
@@ -185,9 +186,10 @@ def package(package):
     )
 
 
-#compare and return filenames common in packages
-@app.route('/compare', methods = ['GET', 'POST'])
-def compare():
+#compare and return filenames uncommon in packages
+@app.route('/compare/packages', methods = ['GET', 'POST'])
+@app.route('/compare/packages/uncommon', methods = ['GET', 'POST'])
+def compare_uncommon():
     form = InputForm(flask.request.form)
 
     if flask.request.method == "POST" and form.is_submitted():
@@ -211,3 +213,29 @@ def compare():
         form = form,
     )
 
+
+#compare and return filenames common in packages
+@app.route('/compare/packages/common', methods = ['GET', 'POST'])
+def compare_common():
+    form = InputForm(flask.request.form)
+
+    if flask.request.method == "POST" and form.is_submitted():
+        packages = form.package.data.split(',')
+        messages_list = []
+        for package in packages:
+            messages = sm.File.by_package(session, package)
+            if messages:
+                messages = JSONEncoder(messages)
+                messages_list.append(messages)
+        common_files_list = common_files(messages_list)
+
+        return flask.render_template(
+            'compare_packages.html',
+            all_files = common_files_list,
+            packages = packages,
+            length = len(packages),
+        )
+    return flask.render_template(
+        'input.html',
+        form = form,
+    )

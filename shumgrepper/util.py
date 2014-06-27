@@ -36,3 +36,24 @@ def uncommon_files(messages_list):
 
     return messages_list
 
+
+def common_files(messages_list):
+    '''return common filenames present in packages'''
+    final_list = []
+    for messages in messages_list:
+        sha256_list = []
+        for msg in messages:
+            sha256_list.append(msg["sha256sum"])
+        final_list.append(sha256_list)
+
+    common_messages = []
+    common_sha256 = set(final_list[0]).intersection(*final_list)
+    for messages in messages_list:
+        for sha256 in common_sha256:
+            common_msg = []
+            for msg in messages:
+                if sha256 == msg["sha256sum"]:
+                    common_msg.append(msg)
+        common_messages.append(common_msg)
+
+    return common_messages
