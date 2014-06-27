@@ -17,10 +17,6 @@ def JSONEncoder(messages):
         msg_list.append(new_dict)
     return msg_list
 
-def request_wants_html():
-    best = flask.request.accept_mimetypes \
-        .best_match(['application/json', 'text/html', 'text/plain'])
-    return best == 'text/html'
 
 def uncommon_files(messages_list):
     '''return uncommon filenames present in packages'''
@@ -32,7 +28,6 @@ def uncommon_files(messages_list):
         final_list.append(sha256_list)
 
     common_sha256 = set(final_list[0]).intersection(*final_list)
-    print common_sha256
     for messages in messages_list:
         for sha256 in common_sha256:
             for msg in messages:
