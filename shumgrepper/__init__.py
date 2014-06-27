@@ -31,6 +31,8 @@ session = sm.create_session(
 
 app.config.from_object('default_config')
 
+import shumgrepper.api
+
 def modify_rst(rst):
     """ Downgrade some of our rst directives if docutils is too old. """
 
