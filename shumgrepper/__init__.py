@@ -162,14 +162,29 @@ def sha256sum(sha256):
 
 
 # request files by tarsum
-@app.route('/tar/<tar>')
-def tar_sum(tar):
-    messages = sm.File.by_tar_sum(session, tar)
+@app.route('/tar_sum/<tar_sum>')
+def tar_sum(tar_sum):
+    messages = sm.File.by_tar_sum(session, tar_sum)
     msg_list = JSONEncoder(messages)
 
     return flask.render_template(
         'files.html',
         all_files=msg_list
+    )
+
+
+# request files by tarsum
+@app.route('/tar_file/<tar_file>/filenames')
+def tar_file(tar_file):
+    messages = sm.File.by_tar_file(session, tar_file)
+    file_list = []
+    for message in messages:
+        file_list.append(message.filename)
+
+    return flask.render_template(
+        'package_filename.html',
+        all_files=file_list,
+        count=len(file_list),
     )
 
 
@@ -180,7 +195,7 @@ def package_filenames(package):
     file_list = []
     for message in messages:
         file_list.append(message.filename)
-    print file_list
+
     return flask.render_template(
         'package_filename.html',
         all_files=file_list,
