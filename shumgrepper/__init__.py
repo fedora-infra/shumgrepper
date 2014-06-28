@@ -175,14 +175,30 @@ def tar_sum(tar):
 
 # list filenames present in a package
 @app.route('/package/<package>/filenames')
-def package(package):
+def package_filenames(package):
     messages = sm.File.by_package(session, package)
     file_list = []
     for message in messages:
         file_list.append(message.filename)
-
+    print file_list
     return flask.render_template(
-        'filename.html',
+        'package_filename.html',
+        all_files=file_list,
+        count=len(file_list),
+    )
+
+
+# returns the versions available for a package
+@app.route('/package/<package>')
+def package(package):
+    messages = sm.File.by_package(session, package)
+    file_list = []
+    for message in messages:
+        file_list.append(message.tar_file)
+
+    file_list = set(file_list)
+    return flask.render_template(
+        'package.html',
         all_files=file_list,
         count=len(file_list),
     )
