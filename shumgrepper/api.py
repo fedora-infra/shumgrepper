@@ -68,9 +68,9 @@ def api_sha256sum(sha256):
     )
 
 
-@app.route('/api/tar/<tar>')
-def api_tar_sum(tar):
-    messages = sm.File.by_tar_sum(session, tar)
+@app.route('/api/tar_sum/<tar_sum>')
+def api_tar_sum(tar_sum):
+    messages = sm.File.by_tar_sum(session, tar_sum)
     msg_list = JSONEncoder(messages)
 
     return flask.Response(
@@ -79,8 +79,22 @@ def api_tar_sum(tar):
     )
 
 
+# request files by tarsum
+@app.route('/api/tar_file/<tar_file>/filenames')
+def api_tar_file(tar_file):
+    messages = sm.File.by_tar_file(session, tar_file)
+    file_list = []
+    for message in messages:
+        file_list.append(message.filename)
+
+    return flask.Response(
+        response=json.dumps(file_list),
+        mimetype="application/json",
+    )
+
+
 @app.route('/api/package/<package>/filenames')
-def api_package(package):
+def api_package_filenames(package):
     messages = sm.File.by_package(session, package)
     file_list = []
     for message in messages:
@@ -88,6 +102,21 @@ def api_package(package):
 
     return flask.Response(
         response=json.dumps(file_list),
+        mimetype="application/json",
+    )
+
+
+@app.route('/api/package/<package>')
+def api_package(package):
+    messages = sm.File.by_package(session, package)
+    file_list = []
+    for message in messages:
+        file_list.append(message.tar_file)
+
+    file_list = set(file_list)
+
+    return flask.Response(
+        response=json.dumps(list(file_list)),
         mimetype="application/json",
     )
 
