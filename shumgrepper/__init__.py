@@ -113,14 +113,14 @@ def home():
 
 # list the names of packages
 @app.route('/packages')
-def packages():
-    packages = sm.File.packages(session)
+def list_all_packages():
+    packages = sm.File.get_all_packages(session)
     package_list = []
     for  package in packages:
         package_list.append(package[0])
 
     return flask.render_template(
-        'packages.html',
+        'list_all_packages.html',
         packages = package_list
     )
 
