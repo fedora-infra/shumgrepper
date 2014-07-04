@@ -1,12 +1,5 @@
 # -*- coding:utf-8 -*-
-import json
 import flask
-import os
-import codecs
-import jinja2
-import docutils
-import docutils.examples
-import markupsafe
 import fedmsg
 import fedmsg.meta
 

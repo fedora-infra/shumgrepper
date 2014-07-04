@@ -1,13 +1,5 @@
 import json
 import flask
-import os
-import codecs
-import jinja2
-import docutils
-import docutils.examples
-import markupsafe
-import fedmsg
-import fedmsg.meta
 
 from forms import InputForm
 import summershum.model as sm
