@@ -108,6 +108,18 @@ def tar_file(tar_file):
         count=len(file_list),
     )
 
+# request files data by filename
+@app.route('/filename/<path:filename>')
+def filename(filename):
+    filename = '/' + filename
+    messages = sm.File.by_filename(session, filename)
+    msg_list = JSONEncoder(messages)
+
+    return flask.render_template(
+        'files.html',
+        all_files=msg_list
+    )
+
 
 # list filenames present in a package
 @app.route('/package/<package>/filenames')
