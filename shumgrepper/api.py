@@ -20,6 +20,15 @@ from shumgrepper.util import (
     common_files,
 )
 
+from shumgrepper.doc_utils import load_docs
+
+@app.route('/api')
+def api():
+
+    return flask.render_template(
+        'api.html',
+        docs=load_docs(flask.request)
+    )
 
 @app.route('/api/packages')
 def api_packages():
