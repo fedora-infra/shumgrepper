@@ -122,7 +122,7 @@ def api_package(package):
     )
 
 
-@app.route('/api/compare/packages/uncommon')
+@app.route('/api/compare/packages/difference')
 def api_compare_package_uncommon():
     package = flask.request.args.getlist('packages', None)
     messages_list = []
@@ -156,7 +156,7 @@ def api_compare_package_common():
     )
 
 
-@app.route('/api/compare/tar_file/uncommon')
+@app.route('/api/compare/tar_file/difference')
 def api_compare_tar_file_uncommon():
     tar_files = flask.request.args.getlist('tar_file', None)
     messages_list = []

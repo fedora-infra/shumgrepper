@@ -154,7 +154,7 @@ def package(package):
 
 #compare and return filenames uncommon in packages
 @app.route('/compare/package', methods = ['GET', 'POST'])
-@app.route('/compare/package/uncommon', methods = ['GET', 'POST'])
+@app.route('/compare/package/difference', methods = ['GET', 'POST'])
 def compare_package_uncommon():
     form = InputForm(flask.request.form)
 
@@ -209,7 +209,7 @@ def compare_package_common():
 
 #compare and return filenames uncommon in tar_files
 @app.route('/compare/tar_file', methods = ['GET', 'POST'])
-@app.route('/compare/tar_file/uncommon', methods = ['GET', 'POST'])
+@app.route('/compare/tar_file/difference', methods = ['GET', 'POST'])
 def compare_tar_file_uncommon():
     form = InputForm(flask.request.form)
 
