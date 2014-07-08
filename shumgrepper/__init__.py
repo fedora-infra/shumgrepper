@@ -152,61 +152,6 @@ def package(package):
     )
 
 
-#compare and return filenames uncommon in packages
-@app.route('/compare/package', methods = ['GET', 'POST'])
-@app.route('/compare/package/difference', methods = ['GET', 'POST'])
-def compare_package_uncommon():
-    form = InputForm(flask.request.form)
-
-    if flask.request.method == "POST" and form.is_submitted():
-        packages = form.values.data.split(',')
-        messages_list = []
-        for package in packages:
-            messages = sm.File.by_package(session, package)
-            if messages:
-                messages = JSONEncoder(messages)
-                messages_list.append(messages)
-        uncommon_files_list = uncommon_files(messages_list)
-
-        return flask.render_template(
-            'compare.html',
-            all_files = uncommon_files_list,
-            compared_values = packages,
-            length = len(packages),
-        )
-    return flask.render_template(
-        'input_package.html',
-        form = form,
-    )
-
-
-#compare and return filenames common in packages
-@app.route('/compare/package/common', methods = ['GET', 'POST'])
-def compare_package_common():
-    form = InputForm(flask.request.form)
-
-    if flask.request.method == "POST" and form.is_submitted():
-        packages = form.values.data.split(',')
-        messages_list = []
-        for package in packages:
-            messages = sm.File.by_package(session, package)
-            if messages:
-                messages = JSONEncoder(messages)
-                messages_list.append(messages)
-        common_files_list = common_files(messages_list)
-        print common_files_list
-        return flask.render_template(
-            'compare.html',
-            all_files = common_files_list,
-            compared_values = packages,
-            length = len(packages),
-        )
-    return flask.render_template(
-        'input_package.html',
-        form = form,
-    )
-
-
 #compare and return filenames uncommon in tar_files
 @app.route('/compare/tar_file', methods = ['GET', 'POST'])
 @app.route('/compare/tar_file/difference', methods = ['GET', 'POST'])
