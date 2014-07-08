@@ -123,7 +123,7 @@ def api_package(package):
 
 
 @app.route('/api/compare/packages/uncommon')
-def api_compare_uncommon():
+def api_compare_package_uncommon():
     package = flask.request.args.getlist('packages', None)
     messages_list = []
     for pkg in package:
@@ -139,8 +139,8 @@ def api_compare_uncommon():
     )
 
 
-@app.route('/api/compare/packages/common')
-def api_compare_common():
+@app.route('/api/compare/package/common')
+def api_compare_package_common():
     package = flask.request.args.getlist('packages', None)
     messages_list = []
     for pkg in package:
@@ -155,3 +155,36 @@ def api_compare_common():
         mimetype = "application/json",
     )
 
+
+@app.route('/api/compare/tar_file/uncommon')
+def api_compare_tar_file_uncommon():
+    tar_files = flask.request.args.getlist('tar_file', None)
+    messages_list = []
+    for tar_file in tar_files:
+        messages = sm.File.by_tar_file(session, tar_file)
+        if messages:
+            messages = JSONEncoder(messages)
+            messages_list.append(messages)
+    uncommon_files_list = uncommon_files(messages_list)
+
+    return flask.Response(
+        response = json.dumps(uncommon_files_list),
+        mimetype = "application/json",
+    )
+
+
+@app.route('/api/compare/tar_file/common')
+def api_compare_tar_file_common():
+    tar_files = flask.request.args.getlist('tar_file', None)
+    messages_list = []
+    for tar_file in tar_files:
+        messages = sm.File.by_tar_file(session, tar_file)
+        if messages:
+            messages = JSONEncoder(messages)
+            messages_list.append(messages)
+    common_files_list = common_files(messages_list)
+
+    return flask.Response(
+        response = json.dumps(common_files_list),
+        mimetype = "application/json",
+    )
