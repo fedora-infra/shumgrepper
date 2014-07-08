@@ -1,0 +1,12 @@
+{% block content %}
+<h1>Compare Tarfile</h1>
+<form action="" method="post" name="compare">
+    <p>
+        Please enter tarfile names separated by comma<br>
+        without any space in between:<br>
+        e.g. appstream-glib-0.1.5.tar.xz,appstream-glib-0.2.0.tar.xz<br>
+        {{form.values(size=120)}}<br>
+    </p>
+    <p><input type="submit" value="Enter"></p>
+</form>
+{% endblock %}

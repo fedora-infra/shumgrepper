@@ -3,4 +3,4 @@ from wtforms import TextField
 from wtforms.validators import Required
 
 class InputForm(Form):
-    package = TextField('package', validators = [Required()])
+    values = TextField('values', validators = [Required()])

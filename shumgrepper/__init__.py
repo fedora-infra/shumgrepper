@@ -153,13 +153,13 @@ def package(package):
 
 
 #compare and return filenames uncommon in packages
-@app.route('/compare/packages', methods = ['GET', 'POST'])
-@app.route('/compare/packages/uncommon', methods = ['GET', 'POST'])
-def compare_uncommon():
+@app.route('/compare/package', methods = ['GET', 'POST'])
+@app.route('/compare/package/uncommon', methods = ['GET', 'POST'])
+def compare_package_uncommon():
     form = InputForm(flask.request.form)
 
     if flask.request.method == "POST" and form.is_submitted():
-        packages = form.package.data.split(',')
+        packages = form.values.data.split(',')
         messages_list = []
         for package in packages:
             messages = sm.File.by_package(session, package)
@@ -169,24 +169,24 @@ def compare_uncommon():
         uncommon_files_list = uncommon_files(messages_list)
 
         return flask.render_template(
-            'compare_packages.html',
+            'compare.html',
             all_files = uncommon_files_list,
-            packages = packages,
+            compared_values = packages,
             length = len(packages),
         )
     return flask.render_template(
-        'input.html',
+        'input_package.html',
         form = form,
     )
 
 
 #compare and return filenames common in packages
-@app.route('/compare/packages/common', methods = ['GET', 'POST'])
-def compare_common():
+@app.route('/compare/package/common', methods = ['GET', 'POST'])
+def compare_package_common():
     form = InputForm(flask.request.form)
 
     if flask.request.method == "POST" and form.is_submitted():
-        packages = form.package.data.split(',')
+        packages = form.values.data.split(',')
         messages_list = []
         for package in packages:
             messages = sm.File.by_package(session, package)
@@ -194,14 +194,70 @@ def compare_common():
                 messages = JSONEncoder(messages)
                 messages_list.append(messages)
         common_files_list = common_files(messages_list)
-
+        print common_files_list
         return flask.render_template(
-            'compare_packages.html',
+            'compare.html',
             all_files = common_files_list,
-            packages = packages,
+            compared_values = packages,
             length = len(packages),
         )
     return flask.render_template(
-        'input.html',
+        'input_package.html',
+        form = form,
+    )
+
+
+#compare and return filenames uncommon in tar_files
+@app.route('/compare/tar_file', methods = ['GET', 'POST'])
+@app.route('/compare/tar_file/uncommon', methods = ['GET', 'POST'])
+def compare_tar_file_uncommon():
+    form = InputForm(flask.request.form)
+
+    if flask.request.method == "POST" and form.is_submitted():
+        tar_files = form.values.data.split(',')
+        messages_list = []
+        for tar_file in tar_files:
+            messages = sm.File.by_tar_file(session, tar_file)
+            if messages:
+                messages = JSONEncoder(messages)
+                messages_list.append(messages)
+        uncommon_files_list = uncommon_files(messages_list)
+
+        return flask.render_template(
+            'compare.html',
+            all_files = uncommon_files_list,
+            compared_values = tar_files,
+            length = len(tar_files),
+        )
+    return flask.render_template(
+        'input_tar_file.html',
+        form = form,
+    )
+
+
+#compare and return filenames common in tar_files
+@app.route('/compare/tar_file', methods = ['GET', 'POST'])
+@app.route('/compare/tar_file/common', methods = ['GET', 'POST'])
+def compare_tar_file_common():
+    form = InputForm(flask.request.form)
+
+    if flask.request.method == "POST" and form.is_submitted():
+        tar_files = form.values.data.split(',')
+        messages_list = []
+        for tar_file in tar_files:
+            messages = sm.File.by_tar_file(session, tar_file)
+            if messages:
+                messages = JSONEncoder(messages)
+                messages_list.append(messages)
+        common_files_list = common_files(messages_list)
+
+        return flask.render_template(
+            'compare.html',
+            all_files = common_files_list,
+            compared_values = tar_files,
+            length = len(tar_files),
+        )
+    return flask.render_template(
+        'input_tar_file.html',
         form = form,
     )

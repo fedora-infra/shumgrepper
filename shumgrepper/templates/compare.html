@@ -5,7 +5,7 @@
   </head>
   <body>
     {% for i in range(length) %}
-        <h3>{{ packages[i] }}</h3>
+        <h3>{{ compared_values[i] }}</h3>
         <ul>
         {% for a_file in all_files[i] %}
             <li>{{ a_file["filename"] }}</li>
