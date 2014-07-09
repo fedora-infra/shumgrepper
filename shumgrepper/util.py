@@ -49,11 +49,11 @@ def common_files(messages_list):
     common_messages = []
     common_sha256 = set(final_list[0]).intersection(*final_list)
     for messages in messages_list:
+        common_msg = {}
         for sha256 in common_sha256:
-            common_msg = []
             for msg in messages:
                 if sha256 == msg["sha256sum"]:
-                    common_msg.append(msg)
+                    common_msg[sha256] = msg["filename"]
         common_messages.append(common_msg)
 
-    return common_messages
+    return common_messages, list(common_sha256)

@@ -194,13 +194,14 @@ def compare_tar_file_common():
             if messages:
                 messages = JSONEncoder(messages)
                 messages_list.append(messages)
-        common_files_list = common_files(messages_list)
+        common_files_list, common_sha256 = common_files(messages_list)
 
         return flask.render_template(
             'compare.html',
             all_files = common_files_list,
             compared_values = tar_files,
             length = len(tar_files),
+            common_sha256 = common_sha256
         )
     return flask.render_template(
         'input_tar_file.html',

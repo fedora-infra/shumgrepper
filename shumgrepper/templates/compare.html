@@ -2,15 +2,36 @@
 <html lang="en">
   <head>
     <title>Shumgrepper</title>
+    <style type="text/css">·
+    th {
+        height: 50px;
+        font: bold;
+    }
+
+    table,th,td
+    {
+        height: 25px;
+        font-size: 12px;
+        border:2px solid black;
+        border-collapse:collapse;
+    }
+    </style>
   </head>
   <body>
-    {% for i in range(length) %}
-        <h3>{{ compared_values[i] }}</h3>
-        <ul>
-        {% for a_file in all_files[i] %}
-            <li>{{ a_file["filename"] }}</li>
+    <table style="width:1200px">
+    <tr>
+        {% for i in range(length) %}
+            <th>{{ compared_values[i] }}</th>
         {% endfor %}
-        </ul>
+            <th> sha256sum </th>
+    </tr>
+    {% for sha256 in common_sha256 %}
+      <tr>
+        {% for i in range(length) %}
+          <td>{{ all_files[i][sha256] }}</td>
+        {% endfor %}
+        <td>{{sha256}}</td>
+      </tr>
     {% endfor %}
   </body>
 </html>
