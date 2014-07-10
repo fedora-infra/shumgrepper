@@ -8,8 +8,7 @@ import summershum.model as sm
 
 from shumgrepper.util import (
     JSONEncoder,
-    uncommon_files,
-    common_files,
+    to_dict
 )
 
 app = flask.Flask(__name__)
@@ -153,9 +152,9 @@ def package(package):
 
 
 #compare and return filenames uncommon in tar_files
-@app.route('/compare/tar_file', methods = ['GET', 'POST'])
-@app.route('/compare/tar_file/difference', methods = ['GET', 'POST'])
-def compare_tar_file_uncommon():
+@app.route('/compare', methods = ['GET', 'POST'])
+@app.route('/compare/difference', methods = ['GET', 'POST'])
+def compare_difference():
     form = InputForm(flask.request.form)
 
     if flask.request.method == "POST" and form.is_submitted():
@@ -164,15 +163,35 @@ def compare_tar_file_uncommon():
         for tar_file in tar_files:
             messages = sm.File.by_tar_file(session, tar_file)
             if messages:
-                messages = JSONEncoder(messages)
+                messages = to_dict(messages)
                 messages_list.append(messages)
-        uncommon_files_list = uncommon_files(messages_list)
+
+        # calculate uncommon sha256sum
+        common_sha256 = set.intersection(*map(set, messages_list))
+        uncommon_sha256 = []
+        for messages in messages_list:
+            diff = set(messages.keys()) - set(common_sha256)
+            for sha256 in diff:
+                uncommon_sha256.append(sha256)
+
+        # calculate final results
+        length = len(tar_files)
+        results = []
+        for sha256 in uncommon_sha256:
+            result = []
+            for i in range(length):
+                if sha256 in messages_list[i]:
+                    result.append(messages_list[i][sha256])
+                else:
+                    result.append(" ")
+            result.append(sha256)
+            results.append(result)
 
         return flask.render_template(
             'compare.html',
-            all_files = uncommon_files_list,
+            all_files = results,
             compared_values = tar_files,
-            length = len(tar_files),
+            length = length,
         )
     return flask.render_template(
         'input_tar_file.html',
@@ -181,9 +200,8 @@ def compare_tar_file_uncommon():
 
 
 #compare and return filenames common in tar_files
-@app.route('/compare/tar_file', methods = ['GET', 'POST'])
-@app.route('/compare/tar_file/common', methods = ['GET', 'POST'])
-def compare_tar_file_common():
+@app.route('/compare/common', methods = ['GET', 'POST'])
+def compare_common():
     form = InputForm(flask.request.form)
 
     if flask.request.method == "POST" and form.is_submitted():
@@ -192,16 +210,28 @@ def compare_tar_file_common():
         for tar_file in tar_files:
             messages = sm.File.by_tar_file(session, tar_file)
             if messages:
-                messages = JSONEncoder(messages)
+                messages = to_dict(messages)
                 messages_list.append(messages)
-        common_files_list, common_sha256 = common_files(messages_list)
+
+        # calculate common sha256 sum in messages_list
+        common_sha256 = set.intersection(*map(set, messages_list))
+
+        # calculate final results
+        length = len(tar_files)
+        results = []
+        for sha256 in common_sha256:
+            result = []
+            for i in range(length):
+                if sha256 in messages_list[i]:
+                    result.append(messages_list[i][sha256])
+            result.append(sha256)
+            results.append(result)
 
         return flask.render_template(
             'compare.html',
-            all_files = common_files_list,
+            all_files = results,
             compared_values = tar_files,
-            length = len(tar_files),
-            common_sha256 = common_sha256
+            length = length,
         )
     return flask.render_template(
         'input_tar_file.html',
