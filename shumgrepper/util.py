@@ -17,3 +17,10 @@ def JSONEncoder(messages):
         msg_list.append(new_dict)
     return msg_list
 
+def to_dict(messages):
+    msg_dict = {}
+    for message in messages:
+        msg_dict[message.sha256sum] = message.filename
+
+    return msg_dict
+
