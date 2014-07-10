@@ -25,13 +25,12 @@
         {% endfor %}
             <th> sha256sum </th>
     </tr>
-    {% for sha256 in common_sha256 %}
-      <tr>
-        {% for i in range(length) %}
-          <td>{{ all_files[i][sha256] }}</td>
-        {% endfor %}
-        <td>{{sha256}}</td>
-      </tr>
+    {% for a_file in all_files %}
+    <tr>
+      {% for i in range(length+1) %}
+        <td>{{ a_file[i] }}</td>
+      {% endfor %}
+    </tr>
     {% endfor %}
   </body>
 </html>
