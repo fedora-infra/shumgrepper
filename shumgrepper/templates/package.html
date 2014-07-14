@@ -6,7 +6,7 @@
   <body>
     <h3>Total versions available: {{count}}</h3>
     {% for a_file in all_files %}
-            <li>{{ a_file }}</li>
+        <li><a href="{{ url_for('tar_file_filenames', tar_file=a_file) }}">{{a_file}}</a></li>
     {% endfor %}
   </body>
 </html>
