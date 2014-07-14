@@ -14,7 +14,7 @@
     <ul>
       {% for package in packages %}
         <li>
-            <a href="{{ url_for('package_filenames', package=package) }}">{{package}}</a>
+            <a href="{{ url_for('package', package=package) }}">{{package}}</a>
         </li>
       {% endfor %}
     </ul>
