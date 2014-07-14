@@ -95,7 +95,7 @@ def tar_sum(tar_sum):
 
 # request files by tarsum
 @app.route('/tar_file/<tar_file>/filenames')
-def tar_file(tar_file):
+def tar_file_filenames(tar_file):
     messages = sm.File.by_tar_file(session, tar_file)
     file_list = []
     for message in messages:
