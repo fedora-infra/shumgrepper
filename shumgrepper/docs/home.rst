@@ -95,7 +95,7 @@ present in all the tar_files and returns common files present in them along with
 
 Example::
 
-    http://localhost:5000/compare/common?tar_file=fedora-release-21.tar.bz2& \
+    http://209.132.184.120/compare/common?tar_file=fedora-release-21.tar.bz2& \
         tar_file=fedora-release-22.tar.bz2
 
 It will return a table with common sha256sum values and the filenames corresponding to each
@@ -117,5 +117,5 @@ to that shasum otherwise it is left blank.
 
 Example::
 
-    http://localhost:5000/compare/difference?tar_file=fedora-release-21.tar.bz2& \
+    http://209.132.184.120/compare/difference?tar_file=fedora-release-21.tar.bz2& \
         tar_file=fedora-release-22.tar.bz2
