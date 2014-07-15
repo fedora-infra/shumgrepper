@@ -25,10 +25,15 @@ app.config.from_object('default_config')
 
 import shumgrepper.api
 
+from shumgrepper.doc_utils import load_docs
 
 @app.route('/')
 def home():
-    return flask.render_template('home.html')
+    return flask.render_template(
+        'home.html',
+        docs=load_docs(flask.request)
+
+    )
 
 
 # list the names of packages
