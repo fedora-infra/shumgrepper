@@ -121,42 +121,60 @@ def api_package(package):
     )
 
 
-@app.route('/api/compare/packages/difference')
-def api_compare_package_uncommon():
-    package = flask.request.args.getlist('packages', None)
+@app.route('/api/compare/package/difference')
+def api_compare_package_difference():
+    package = flask.request.args.getlist('package', None)
     messages_list = []
     for pkg in package:
         messages = sm.File.by_package(session, pkg)
         if messages:
-            messages = JSONEncoder(messages)
+            messages = to_dict(messages)
             messages_list.append(messages)
-    uncommon_files_list = uncommon_files(messages_list)
+
+    # calculate uncommon sha256sum
+    common_sha256 = set.intersection(*map(set, messages_list))
+
+    # delete messages with common sha256sum
+    for messages in messages_list:
+        for sha256 in common_sha256:
+            messages.pop(sha256, None)
+
 
     return flask.Response(
-        response = json.dumps(uncommon_files_list),
+        response = json.dumps(messages_list),
         mimetype = "application/json",
     )
 
 
 @app.route('/api/compare/package/common')
 def api_compare_package_common():
-    package = flask.request.args.getlist('packages', None)
+    package = flask.request.args.getlist('package', None)
     messages_list = []
     for pkg in package:
         messages = sm.File.by_package(session, pkg)
         if messages:
-            messages = JSONEncoder(messages)
+            messages = to_dict(messages)
             messages_list.append(messages)
-    common_files_list = common_files(messages_list)
+
+    # calculate common sha256 sum in messages_list
+    common_sha256 = set.intersection(*map(set, messages_list))
+
+    # adding messages with common sha256
+    results = []
+    for messages in messages_list:
+        result = {}
+        for sha256 in common_sha256:
+            result[sha256] = messages[sha256]
+        results.append(result)
 
     return flask.Response(
-        response = json.dumps(common_files_list),
+        response = json.dumps(results),
         mimetype = "application/json",
     )
 
 
-@app.route('/api/compare/difference')
-def api_compare_difference():
+@app.route('/api/compare/tar_file/difference')
+def api_compare_tar_file_difference():
     tar_files = flask.request.args.getlist('tar_file', None)
     messages_list = []
     for tar_file in tar_files:
@@ -179,8 +197,8 @@ def api_compare_difference():
     )
 
 
-@app.route('/api/compare/common')
-def api_compare_common():
+@app.route('/api/compare/tar_file/common')
+def api_compare_tar_file_common():
     tar_files = flask.request.args.getlist('tar_file', None)
     messages_list = []
     for tar_file in tar_files:
