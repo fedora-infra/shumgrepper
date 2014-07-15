@@ -113,7 +113,7 @@ md5sum
 
 .. code-block:: javascript
 
-    http://209.132.184.120/md5/<md5sum>
+    http://209.132.184.120/api/md5/<md5sum>
 
 Sample Results
 """"""""""""""
