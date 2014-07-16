@@ -3,7 +3,6 @@ import flask
 import fedmsg
 import fedmsg.meta
 
-from forms import InputForm
 import summershum.model as sm
 
 from shumgrepper.util import (
@@ -28,6 +27,7 @@ import shumgrepper.api
 from shumgrepper.doc_utils import load_docs
 
 @app.route('/')
+@app.route('/home')
 def home():
     return flask.render_template(
         'home.html',

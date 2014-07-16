@@ -1,7 +1,6 @@
 import json
 import flask
 
-from forms import InputForm
 import summershum.model as sm
 
 from shumgrepper import app, session
