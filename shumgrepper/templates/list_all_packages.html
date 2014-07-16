@@ -1,21 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <style type="text/css">
-        .header {
-            color: #808080;
-            padding-left: 20px;
-        }
-    </style>
+    {% if total_page and total_page > 1 and total_page >= page %}
+    <table>
+        <tr>
+            <td>
+            {% if page > 1 %}
+                <a href="{{ url_for('list_all_packages') }}?page={{page - 1}}">
+                < Previous
+                </a>
+            {% else %}
+                < Previous
+            {% endif %}
+            </td>
+            <td> {{ page }} / {{ total_page }} </td>
+            <td>
+                {% if page < total_page %}
+                <a href="{{ url_for('list_all_packages') }}?page={{page + 1}}">
+                    Next >
+                </a>
+                {% else %}
+                    Next >
+                {% endif %}
+            </td>
 
-    <div class="header">
-      <h1> Packages </h1>
-    </div>
+        </tr>
+    </table>
+    {% endif %}
+
     <ul>
-      {% for package in packages %}
-        <li>
-            <a href="{{ url_for('package', package=package) }}">{{package}}</a>
+        {% if total_page >= page and page > 0 %}
+            {% for package in packages %}
+            <li>
+                <a href="{{url_for('.package', package=package)}}">
+                {{ package }}</a>
+            </li>
+            {% endfor %}
+        {% elif total_page %}
+        <li>Sorry, but the page you are requesting is unavailable. <br />
+            <a href="{{ url_for('list_all_packages') }}">
+                Back to the list
+            </a>
         </li>
-      {% endfor %}
+        {% else %}
+        <p class='error'>No package found in the database.</p>
+        {% endif %}
     </ul>
+
 {% endblock %}
+

@@ -3,6 +3,7 @@ import flask
 import fedmsg
 import fedmsg.meta
 
+from math import ceil
 import summershum.model as sm
 
 from shumgrepper.util import (
@@ -39,14 +40,41 @@ def home():
 # list the names of packages
 @app.route('/packages')
 def list_all_packages():
-    packages = sm.File.get_all_packages(session)
-    package_list = []
-    for  package in packages:
-        package_list.append(package[0])
+    limit = flask.request.args.get('limit', app.config['ITEMS_PER_PAGE'])
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = abs(int(page))
+    except ValueError:
+        page = 1
+
+    try:
+        limit = abs(int(limit))
+    except ValueError:
+        limit = app.config['ITEMS_PER_PAGE']
+        flask.flash('Incorrect limit provided, using default', 'errors')
+
+    packages = sm.File.get_all_packages(
+        session,
+        page=page,
+        limit=limit,
+    )
+
+    packages_count = sm.File.get_all_packages(
+        session,
+        page=page,
+        limit=limit,
+        count=True,
+    )
+    total_page = int(ceil(packages_count / float(limit)))
+
+    packages = [pkg[0] for pkg in packages]
 
     return flask.render_template(
         'list_all_packages.html',
-        packages = package_list
+        packages = packages,
+        page=page,
+        total_page=total_page
     )
 
 
