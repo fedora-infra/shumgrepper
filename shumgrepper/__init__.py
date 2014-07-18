@@ -130,6 +130,7 @@ def tar_sum(tar_sum):
 @app.route('/tar_file/<tar_file>/filenames')
 def tar_file_filenames(tar_file):
     messages = sm.File.by_tar_file(session, tar_file)
+    print messages
     file_list = []
     for message in messages:
         file_list.append(message.filename)
@@ -258,3 +259,45 @@ def compare_common():
         length = length,
     )
 
+
+# returns history of a package
+@app.route('/history/<package>')
+def history(package):
+    messages = sm.File.by_package(session, package)
+    versions = []
+    for message in messages:
+        versions.append(message.tar_file)
+
+    versions = set(versions)
+    versions =  list(versions)
+
+    sha256_list = []
+    messages_list = []
+    for version in versions:
+        messages = sm.File.by_tar_file(session, version)
+        if messages:
+            msg_dict = {}
+            for message in messages:
+                msg_dict[message.sha256sum] = message.filename
+                sha256_list.append(message.sha256sum)
+            messages_list.append(msg_dict)
+    sha256_list = set(sha256_list)
+    sha256_list = list(sha256_list)
+
+    results = []
+    for sha256 in sha256_list:
+        result = []
+        for messages in messages_list:
+            if sha256 in messages:
+                result.append(messages[sha256])
+            else:
+                result.append(" ")
+        result.append(sha256)
+        results.append(result)
+
+    return flask.render_template(
+        "history.html",
+        results = results,
+        versions = versions,
+        length = len(versions),
+    )
