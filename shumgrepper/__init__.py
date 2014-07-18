@@ -130,7 +130,7 @@ def tar_sum(tar_sum):
 @app.route('/tar_file/<tar_file>/filenames')
 def tar_file_filenames(tar_file):
     messages = sm.File.by_tar_file(session, tar_file)
-    print messages
+
     file_list = []
     for message in messages:
         file_list.append(message.filename)
