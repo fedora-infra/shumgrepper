@@ -36,10 +36,23 @@ def home():
 
     )
 
+@app.route('/search/')
+def search():
+    ''' Redirect to the correct url to perform the appropriate search.
+    '''
+    search_term = flask.request.args.get('term', '*') or '*'
+
+    if not search_term.endswith('*'):
+        search_term += '*'
+
+    return flask.redirect(flask.url_for('.list_all_packages',
+                                            motif=search_term))
 
 # list the names of packages
 @app.route('/packages')
-def list_all_packages():
+@app.route('/packages/<motif>/')
+def list_all_packages(motif=None):
+    pattern = flask.request.args.get('motif', motif) or '*'
     limit = flask.request.args.get('limit', app.config['ITEMS_PER_PAGE'])
     page = flask.request.args.get('page', 1)
 
@@ -56,19 +69,28 @@ def list_all_packages():
 
     packages = sm.File.get_all_packages(
         session,
-        page=page,
+        pattern=pattern,
         limit=limit,
+        page=page,
     )
 
     packages_count = sm.File.get_all_packages(
         session,
-        page=page,
+        pattern=pattern,
         limit=limit,
         count=True,
+        page=page,
     )
+
     total_page = int(ceil(packages_count / float(limit)))
 
     packages = [pkg[0] for pkg in packages]
+
+    if len(packages) == 1:
+        flask.flash(
+            'Only one package matching, redirecting you to its page')
+        return flask.redirect(flask.url_for(
+            '.package', package=packages[0]))
 
     return flask.render_template(
         'list_all_packages.html',
