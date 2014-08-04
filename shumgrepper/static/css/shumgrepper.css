@@ -1,0 +1,28 @@
+body {
+    padding-top: 20px;
+    padding-bottom: 40px;
+    color: #555;
+    background-image: url('/static/header-bg.png');
+}
+
+.container-narrow {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.nav > li > a {
+    color: #fff;
+}
+
+.nav > li > a:hover {
+    color: #06C;
+}
+
+.nav>li>a:focus {
+    background-color: #06C;
+}
+
+.title {
+    color: #fff;
+}
+
