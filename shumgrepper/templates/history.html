@@ -1,24 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Shumgrepper</title>
-    <style type="text/css">·
-    th {
-        height: 50px;
-        font: bold;
-    }
+{% extends "base.html" %}
 
-    table,th,td
-    {
-        height: 25px;
-        font-size: 12px;
-        border:2px solid black;
-        border-collapse:collapse;
-    }
-    </style>
-  </head>
-  <body>
-    <table style="width:1200px">
+{% block content %}
+<table style="width:1200px">
     <tr>
         {% for i in range(length) %}
             <th>{{ versions[i] }}</th>
@@ -32,6 +15,6 @@
         {% endfor %}
     </tr>
     {% endfor %}
-  </body>
-</html>
+
+{% endblock %}
 

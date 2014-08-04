@@ -1,24 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Shumgrepper</title>
-    <style type="text/css"> 
-    th {
-        height: 50px;
-        font: bold;
-    }
+{% extends "base.html" %}
 
-    table,th,td
-    {
-        height: 25px;
-        font-size: 12px;
-        border:2px solid black;
-        border-collapse:collapse;
-    }
-    </style>
-  </head>
-  <body>
-    <table style="width:1200px">
+{% block content %}
+
+    <table>
     <tr>
         <th>FILENAME</th>
         <th>SHA256SUM</th>
@@ -39,6 +23,6 @@
             <td>{{ a_file.tar_sum }}</td>
         </tr>
     {% endfor %}
-  </body>
-</html>
+    </table>
 
+{% endblock %}
