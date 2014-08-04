@@ -3,11 +3,13 @@ body {
     padding-bottom: 40px;
     color: #555;
     background-image: url('/static/header-bg.png');
+    background-repeat:repeat-x;
 }
 
 .container-narrow {
     margin: 0 auto;
-    max-width: 800px;
+    min-width: 750px;
+    max-width: 1100px;
 }
 
 .nav > li > a {
@@ -24,5 +26,9 @@ body {
 
 .title {
     color: #fff;
+}
+
+td {
+    padding-left: 30px;
 }
 
