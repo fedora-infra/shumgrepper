@@ -28,7 +28,6 @@ import shumgrepper.api
 from shumgrepper.doc_utils import load_docs
 
 @app.route('/')
-@app.route('/home')
 def home():
     return flask.render_template(
         'home.html',
