@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table class="table table-striped">
+        {% for a_file in all_files %}
+            <tr><td><a href="{{url_for('.package', package=a_file)}}">{{ a_file }}</a></td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

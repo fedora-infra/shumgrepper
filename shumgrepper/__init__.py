@@ -322,3 +322,23 @@ def history(package):
         versions = versions,
         length = len(versions),
     )
+
+# return packages having atleast a file matching the pattern
+@app.route('/pattern/<pattern>')
+def pattern(pattern):
+    packages = sm.File.get_all_packages(
+        session,
+        pattern='*',
+    )
+
+    package_list = []
+    for package in packages:
+        files = sm.File.file_filter(session, package[0], pattern)
+        if files:
+            package_list.append(package[0])
+
+    return flask.render_template(
+            'pattern.html',
+            all_files=package_list,
+    )
+
