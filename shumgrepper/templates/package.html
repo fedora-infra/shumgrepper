@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Shumgrepper</title>
-  </head>
-  <body>
-    <h3>Total versions available: {{count}}</h3>
+{% extends "base.html" %}
+
+{% block content %}
+    <h4>Total versions available: {{count}}</h4>
     {% for a_file in all_files %}
         <li><a href="{{ url_for('tarball_filenames', tarball=a_file) }}">{{a_file}}</a></li>
     {% endfor %}
-  </body>
-</html>
+
+{% endblock %}
 
