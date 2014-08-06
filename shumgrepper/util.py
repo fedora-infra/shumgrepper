@@ -6,7 +6,7 @@ def JSONEncoder(messages):
     msg_list = []
     for message in messages:
         new_dict = dict(
-            tar_file = message.tar_file,
+            tarball = message.tarball,
             md5sum = message.md5sum,
             sha256sum = message.sha256sum,
             pkg_name = message.pkg_name,

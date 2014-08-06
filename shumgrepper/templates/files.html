@@ -9,7 +9,7 @@
         <th>SHA1SUM</th>
         <th>MD5SUM</th>
         <th>PACKAGE NAME</th>
-        <th>TARFILE</th>
+        <th>TARBALL</th>
         <th>TARSUM</th>
     </tr>
     {% for a_file in all_files %}
@@ -19,7 +19,7 @@
             <td>{{ a_file.sha1sum }}</td>
             <td>{{ a_file.md5sum }}</td>
             <td>{{ a_file.pkg_name }}</td>
-            <td>{{ a_file.tar_file }}</td>
+            <td>{{ a_file.tarball }}</td>
             <td>{{ a_file.tar_sum }}</td>
         </tr>
     {% endfor %}
