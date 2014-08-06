@@ -178,10 +178,7 @@ def filename(filename):
 # list filenames present in a package
 @app.route('/package/<package>/filenames')
 def package_filenames(package):
-    messages = sm.File.by_package(session, package)
-    file_list = []
-    for message in messages:
-        file_list.append(message.filename)
+    messages = sm.File.package_filenames(session, package)
 
     return flask.render_template(
         'package_filename.html',
