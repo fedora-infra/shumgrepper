@@ -4,7 +4,7 @@ Overview
 Shumgrepper queries from summershum's database which collects the md5sum, sha1sum,
 sha256sum of every file present in every package in Fedora. Shumgrepper will allow you to
 query by shum values like sha1sum, sha256sum, md5sum and tar_sum, find the files bundled within
-a package, compare different packages and tar_files, search for a package and get the
+a package, compare different packages and tarballs, search for a package and get the
 history of a package.
 
 User Interface
@@ -87,12 +87,12 @@ Files of a package version
 --------------------------
 
 In order to get the files of a specific package version, you will have to query
-by tar_file. The **/tar_file/<tar_file>/filenames** endpoint returns file names for
-the files contained within a tar_file.
+by tarball. The **/tarball/<tarball>/filenames** endpoint returns file names for
+the files contained within a tarball.
 
 Example::
 
-    /tar_file/fotoxx-14.05.1.tar.gz/filenames
+    /tarball/fotoxx-14.05.1.tar.gz/filenames
 
 
 Query by filename
@@ -117,21 +117,21 @@ Example::
     /history/fedora-repos
 
 
-Compare two or more tar_files
+Compare two or more tarballs
 -----------------------------
 
 Common files
 ````````````
 
-It compares two or more tar_files by comparing the sha256sum of the filenames
-present in all the tar_files and returns common files present in them along with their sha256sum::
+It compares two or more tarballs by comparing the sha256sum of the filenames
+present in all the tarballs and returns common files present in them along with their sha256sum::
 
-    /compare/common?tar_file={tar_file1}&tar_file={tar_file2}
+    /compare/common?tarball={tarball1}&tarball={tarball2}
 
 Example::
 
-    /compare/common?tar_file=fedora-release-21.tar.bz2& \
-        tar_file=fedora-release-22.tar.bz2
+    /compare/common?tarball=fedora-release-21.tar.bz2& \
+        tarball=fedora-release-22.tar.bz2
 
 It will return a table with common sha256sum values and the filenames corresponding to each
 package matching that sha256sum.
@@ -140,19 +140,19 @@ package matching that sha256sum.
 Different files
 ```````````````
 
-It compares two or more tar_files by comparing sha256sum values of the filenames
+It compares two or more tarballs by comparing sha256sum values of the filenames
 present in all the packages and returns different files present in them::
 
-    /compare/difference?tar_file={tar_file1} \
-        tar_file={tar_file2}
+    /compare/difference?tarball={tarball1} \
+        tarball={tarball2}
 
 
-It returns a table where each column represents a tar_file and one column contains different
-sha256sum. If a tar_file contains that sha256sum, then filename will be listed corresponding
+It returns a table where each column represents a tarball and one column contains different
+sha256sum. If a tarball contains that sha256sum, then filename will be listed corresponding
 to that shasum otherwise it is left blank.
 
 Example::
 
-    /compare/difference?tar_file=fedora-release-21.tar.bz2& \
-        tar_file=fedora-release-22.tar.bz2
+    /compare/difference?tarball=fedora-release-21.tar.bz2& \
+        tarball=fedora-release-22.tar.bz2
 

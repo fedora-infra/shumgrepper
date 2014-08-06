@@ -2,7 +2,7 @@ Requesting data by hashes
 -------------------------
 
 It returns the files with the specified hash sum. The files retrieved contain the values of filename, package name,
-md5sum, sha1sum, sha256sum, tar_sum, tar_file matching that particular hash sum.
+md5sum, sha1sum, sha256sum, tar_sum, tarball matching that particular hash sum.
 
 sha1sum
 """""""
@@ -23,7 +23,7 @@ Querying files data by sha1sum::
             "pkg_name": "libappstream-glib", 
             "sha1sum": "e0ec2c54e7a4fabb2f7e8c78d711efc0ed5f4f43", 
             "sha256sum": "a0ceb8c8f1f3316562e0370ee280789d626813458fc1da69102b9575a63fabb1", 
-            "tar_file": "appstream-glib-0.1.5.tar.xz", 
+            "tarball": "appstream-glib-0.1.5.tar.xz", 
             "tar_sum": "a84aeb3560b4813ba3a7533728ed4a69"
         }
     ]
@@ -49,7 +49,7 @@ Querying files data by sha256sum::
             "pkg_name": "python-jinja2", 
             "sha1sum": "eb651ef64e5579c6bb7ed0a72de9ed48684be73b", 
             "sha256sum": "e77b543aefd1595f159e541041a403c48a240913bc65ca5c4267df096f775eb6", 
-            "tar_file": "Jinja2-2.7.3.tar.gz", 
+            "tarball": "Jinja2-2.7.3.tar.gz", 
             "tar_sum": "b9dffd2f3b43d673802fe857c8445b1a"
         }
     ]
@@ -75,7 +75,7 @@ Querying files data by tarsum::
             "pkg_name": "kf5-kpty", 
             "sha1sum": "2f765e6141ec886bac5472236f65c723826f6670", 
             "sha256sum": "28bc93bbcfc71b259ed5d10355b6fc947d15c6dd954a87002eaa6c1fc7b027a4", 
-            "tar_file": "kpty-4.100.0.tar.xz", 
+            "tarball": "kpty-4.100.0.tar.xz", 
             "tar_sum": "4a31a53097eaf029df45dd36ab622a57"
         },
         {
@@ -84,7 +84,7 @@ Querying files data by tarsum::
             "pkg_name": "kf5-kpty", 
             "sha1sum": "d4d2ecfd58f8fe89488e5c6a72786ef0cdb18492", 
             "sha256sum": "ed505ab705f85274d128a1bcd1908c7829677d2bcbc3ff8358bb8f56c08d0303", 
-            "tar_file": "kpty-4.100.0.tar.xz", 
+            "tarball": "kpty-4.100.0.tar.xz", 
             "tar_sum": "4a31a53097eaf029df45dd36ab622a57"
         }, 
         {
@@ -93,7 +93,7 @@ Querying files data by tarsum::
             "pkg_name": "kf5-kpty", 
             "sha1sum": "29dd10eb6d7c335555a1ffa3ffbd8d1610a5d1de", 
             "sha256sum": "e8be8630423f26a7714c413cf8aa663b8e798195c36cfbc097fc7da0d721adba", 
-            "tar_file": "kpty-4.100.0.tar.xz", 
+            "tarball": "kpty-4.100.0.tar.xz", 
             "tar_sum": "4a31a53097eaf029df45dd36ab622a57"
         },
     ]
@@ -119,7 +119,7 @@ Querying data by md5sum::
             "pkg_name": "kf5-kpty", 
             "sha1sum": "8f8d90a0ad5c3ad706b8874fb7e690096f697337", 
             "sha256sum": "e94e37d0bf22eea94d1a118da712f96608b8be150ac616c0a03e9cd3d58594dd", 
-            "tar_file": "kpty-4.100.0.tar.xz", 
+            "tarball": "kpty-4.100.0.tar.xz", 
             "tar_sum": "4a31a53097eaf029df45dd36ab622a57"
         }
     ]
@@ -180,15 +180,15 @@ It returns file names for the files contained within a package.
 Files of a package version
 --------------------------
 
-The **/api/tar_file/<tar_file>/filenames** endpoint determines the files bundled within a particular
-package version. To get the filenames of a specific package version, you will have to query by tar_file.
-It returns file names for the files contained within a tar_file.
+The **/api/tarball/<tarball>/filenames** endpoint determines the files bundled within a particular
+package version. To get the filenames of a specific package version, you will have to query by tarball.
+It returns file names for the files contained within a tarball.
 
 **Sample Results:**
 
 .. code-block:: javascript
 
-    /api/tar_file/fedora-release-22.tar.bz2/filenames
+    /api/tarball/fedora-release-22.tar.bz2/filenames
 
 .. code-block:: javascript
 
@@ -312,26 +312,26 @@ to the total number of packages.
     ]
 
 
-Compare two or more tar_files
+Compare two or more tarballs
 -----------------------------
 
 Common files
 """"""""""""
 
-It compares two or more tar_files by comparing the sha256sum of the filenames
-present in all the tar_files and returns common files present in them along with their sha256sum::
+It compares two or more tarballs by comparing the sha256sum of the filenames
+present in all the tarballs and returns common files present in them along with their sha256sum::
 
-    /api/compare/tar_file/common \
-        tar_file=={tar_file} \
-        tar_file=={tar_file}
+    /api/compare/tarball/common \
+        tarball=={tarball} \
+        tarball=={tarball}
 
 **Sample Results:**
 
 .. code-block:: javascript
 
-    /api/compare/tar_file/common \
-        tar_file==fedora-release-21.tar.bz2 \
-        tar_file==fedora-release-22.tar.bz2
+    /api/compare/tarball/common \
+        tarball==fedora-release-21.tar.bz2 \
+        tarball==fedora-release-22.tar.bz2
 
 .. code-block:: javascript
 
@@ -352,7 +352,7 @@ present in all the tar_files and returns common files present in them along with
 Different files
 ```````````````
 
-It compares two or more tar_files by comparing sha256sum values of the filenames
+It compares two or more tarballs by comparing sha256sum values of the filenames
 present in all the packages and returns different files present in them::
 
     /api/compare/package/difference \
@@ -368,9 +368,9 @@ to the total number of packages.
 
 .. code-block:: javascript
 
-    /api/compare/tar_file/difference \
-        tar_file==fedora-release-21.tar.bz2 \
-        tar_file==fedora-release-22.tar.bz2
+    /api/compare/tarball/difference \
+        tarball==fedora-release-21.tar.bz2 \
+        tarball==fedora-release-22.tar.bz2
 
 .. code-block:: javascript
 

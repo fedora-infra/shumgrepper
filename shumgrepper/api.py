@@ -79,9 +79,9 @@ def api_tar_sum(tar_sum):
 
 
 # request files by tarsum
-@app.route('/api/tar_file/<tar_file>/filenames')
-def api_tar_file(tar_file):
-    messages = sm.File.by_tar_file(session, tar_file)
+@app.route('/api/tarball/<tarball>/filenames')
+def api_tarball(tarball):
+    messages = sm.File.by_tarball(session, tarball)
     file_list = []
     for message in messages:
         file_list.append(message.filename)
@@ -110,7 +110,7 @@ def api_package(package):
     messages = sm.File.by_package(session, package)
     file_list = []
     for message in messages:
-        file_list.append(message.tar_file)
+        file_list.append(message.tarball)
 
     file_list = set(file_list)
 
@@ -172,12 +172,12 @@ def api_compare_package_common():
     )
 
 
-@app.route('/api/compare/tar_file/difference')
-def api_compare_tar_file_difference():
-    tar_files = flask.request.args.getlist('tar_file', None)
+@app.route('/api/compare/tarball/difference')
+def api_compare_tarball_difference():
+    tarballs = flask.request.args.getlist('tarball', None)
     messages_list = []
-    for tar_file in tar_files:
-        messages = sm.File.by_tar_file(session, tar_file)
+    for tarball in tarballs:
+        messages = sm.File.by_tarball(session, tarball)
         if messages:
             messages = to_dict(messages)
             messages_list.append(messages)
@@ -196,12 +196,12 @@ def api_compare_tar_file_difference():
     )
 
 
-@app.route('/api/compare/tar_file/common')
-def api_compare_tar_file_common():
-    tar_files = flask.request.args.getlist('tar_file', None)
+@app.route('/api/compare/tarball/common')
+def api_compare_tarball_common():
+    tarballs = flask.request.args.getlist('tarball', None)
     messages_list = []
-    for tar_file in tar_files:
-        messages = sm.File.by_tar_file(session, tar_file)
+    for tarball in tarballs:
+        messages = sm.File.by_tarball(session, tarball)
         if messages:
             messages = to_dict(messages)
             messages_list.append(messages)

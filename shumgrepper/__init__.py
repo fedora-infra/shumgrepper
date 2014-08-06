@@ -148,9 +148,9 @@ def tar_sum(tar_sum):
 
 
 # request files by tarsum
-@app.route('/tar_file/<tar_file>/filenames')
-def tar_file_filenames(tar_file):
-    messages = sm.File.by_tar_file(session, tar_file)
+@app.route('/tarball/<tarball>/filenames')
+def tarball_filenames(tarball):
+    messages = sm.File.by_tarball(session, tarball)
 
     file_list = []
     for message in messages:
@@ -193,7 +193,7 @@ def package(package):
     messages = sm.File.by_package(session, package)
     file_list = []
     for message in messages:
-        file_list.append(message.tar_file)
+        file_list.append(message.tarball)
 
     file_list = set(file_list)
     return flask.render_template(
@@ -203,15 +203,15 @@ def package(package):
     )
 
 
-#compare and return filenames different in all tar_files
+#compare and return filenames different in all tarballs
 @app.route('/compare')
 @app.route('/compare/difference')
 def compare_difference():
-    tar_files = flask.request.args.getlist('tar_file', None)
+    tarballs = flask.request.args.getlist('tarball', None)
 
     messages_list = []
-    for tar_file in tar_files:
-        messages = sm.File.by_tar_file(session, tar_file)
+    for tarball in tarballs:
+        messages = sm.File.by_tarball(session, tarball)
         if messages:
             messages = to_dict(messages)
             messages_list.append(messages)
@@ -225,7 +225,7 @@ def compare_difference():
             uncommon_sha256.append(sha256)
 
     # calculate final results
-    length = len(tar_files)
+    length = len(tarballs)
     results = []
     for sha256 in uncommon_sha256:
         result = []
@@ -240,18 +240,18 @@ def compare_difference():
     return flask.render_template(
         'compare.html',
         all_files = results,
-        compared_values = tar_files,
+        compared_values = tarballs,
         length = length,
     )
 
 
-#compare and return filenames common in tar_files
+#compare and return filenames common in tarballs
 @app.route('/compare/common')
 def compare_common():
-    tar_files = flask.request.args.getlist('tar_file', None)
+    tarballs = flask.request.args.getlist('tarball', None)
     messages_list = []
-    for tar_file in tar_files:
-        messages = sm.File.by_tar_file(session, tar_file)
+    for tarball in tarballs:
+        messages = sm.File.by_tarball(session, tarball)
         if messages:
             messages = to_dict(messages)
             messages_list.append(messages)
@@ -260,7 +260,7 @@ def compare_common():
     common_sha256 = set.intersection(*map(set, messages_list))
 
     # calculate final results
-    length = len(tar_files)
+    length = len(tarballs)
     results = []
     for sha256 in common_sha256:
         result = []
@@ -273,7 +273,7 @@ def compare_common():
     return flask.render_template(
         'compare.html',
         all_files = results,
-        compared_values = tar_files,
+        compared_values = tarballs,
         length = length,
     )
 
@@ -284,7 +284,7 @@ def history(package):
     messages = sm.File.by_package(session, package)
     versions = []
     for message in messages:
-        versions.append(message.tar_file)
+        versions.append(message.tarball)
 
     versions = set(versions)
     versions =  list(versions)
@@ -292,7 +292,7 @@ def history(package):
     sha256_list = []
     messages_list = []
     for version in versions:
-        messages = sm.File.by_tar_file(session, version)
+        messages = sm.File.by_tarball(session, version)
         if messages:
             msg_dict = {}
             for message in messages:
