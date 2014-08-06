@@ -6,6 +6,17 @@ body {
     background-repeat:repeat-x;
 }
 
+.search-box {
+    top: -50px;
+    position: relative;
+}
+
+.nav-tabs {
+    position: relative;
+    top: 2px;
+    border-bottom: 0.5px;
+}
+
 .container-narrow {
     margin: 0 auto;
     min-width: 750px;
