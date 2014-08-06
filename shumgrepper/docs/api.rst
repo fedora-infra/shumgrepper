@@ -6,17 +6,13 @@ md5sum, sha1sum, sha256sum, tar_sum, tar_file matching that particular hash sum.
 
 sha1sum
 """""""
+The **/api/sha1/<sha1sum>** endpoint will return files matching this sha1sum.
 
-.. code-block:: javascript
-
-    http://209.132.184.120/api/sha1/<sha1sum>
-
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 Querying files data by sha1sum::
 
-    http://209.132.184.120/api/sha1/e0ec2c54e7a4fabb2f7e8c78d711efc0ed5f4f43
+    /api/sha1/e0ec2c54e7a4fabb2f7e8c78d711efc0ed5f4f43
 
 .. code-block:: javascript
 
@@ -36,16 +32,13 @@ Querying files data by sha1sum::
 sha256sum
 """""""""
 
-.. code-block:: javascript
+The **/api/sha256/<sha256sum>** endpoint will return files matching the sha256sum.
 
-    http://209.132.184.120/api/sha256/<sha256sum>
-
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 Querying files data by sha256sum::
 
-    http://209.132.184.120/api/sha256/e77b543aefd1595f159e541041a403c48a240913bc65ca5c4267df096f775eb6
+    /api/sha256/e77b543aefd1595f159e541041a403c48a240913bc65ca5c4267df096f775eb6
 
 .. code-block:: javascript
 
@@ -61,19 +54,17 @@ Querying files data by sha256sum::
         }
     ]
 
-tarsum
-""""""
+tar_sum
+"""""""
 
-.. code-block:: javascript
+The **/api/tar_sum/<tar_sum>** endpoint will return files matching the tar_sum.
 
-    http://209.132.184.120/api/tar_sum/<tarsum>
+**Sample Results:**
 
-Sample Results
-""""""""""""""
 
 Querying files data by tarsum::
 
-    http://209.132.184.120/api/tar_sum/4a31a53097eaf029df45dd36ab622a57
+    /api/tar_sum/4a31a53097eaf029df45dd36ab622a57
 
 .. code-block:: javascript
 
@@ -111,16 +102,13 @@ Querying files data by tarsum::
 md5sum
 """"""
 
-.. code-block:: javascript
+The **/api/md5/<md5sum>** endpoint will return files matching the md5sum.
 
-    http://209.132.184.120/api/md5/<md5sum>
-
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 Querying data by md5sum::
 
-    http://209.132.184.120/api/md5/bf6f8d7c7022b27534011c4ad8334e2a
+    /api/md5/bf6f8d7c7022b27534011c4ad8334e2a
 
 .. code:: javascript
 
@@ -139,16 +127,14 @@ Querying data by md5sum::
 Package Details
 ---------------
 
-It will display the details of the package. It will return versions of the package present::
+The **/api/package/<package>** endpoint will display the details of the package. It will return
+all the available versions of the package.
 
-    http://209.132.184.120/api/package/<package>
-
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 .. code-block:: javascript
 
-    http://209.132.184.120/api/package/fotoxx
+    /api/package/fotoxx
 
 .. code-block:: javascript
 
@@ -163,17 +149,14 @@ Sample Results
 Files of a package
 ------------------
 
-It determines the files bundled within a package. It returns
-file names for the files contained within a package::
+The **/api/package/<package>/filenames** endpoint determines the files bundled within a package.
+It returns file names for the files contained within a package.
 
-    http://209.132.184.120/api/package/<package>/filenames
-
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 .. code-block:: javascript
 
-    http://209.132.184.120/api/package/felix-gogo-command/filenames
+    /api/package/felix-gogo-command/filenames
 
 .. code-block:: javascript
 
@@ -197,18 +180,15 @@ Sample Results
 Files of a package version
 --------------------------
 
-It determines the files bundled within a particular package version. To get the filenames of a
-specific package version, you will have to query by tar_file. It returns file names for the
-files contained within a tar_file::
+The **/api/tar_file/<tar_file>/filenames** endpoint determines the files bundled within a particular
+package version. To get the filenames of a specific package version, you will have to query by tar_file.
+It returns file names for the files contained within a tar_file.
 
-    http://209.132.184.120/api/tar_file/<tar_file>/filenames
-
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 .. code-block:: javascript
 
-    http://209.132.184.120/api/tar_file/fedora-release-22.tar.bz2/filenames
+    /api/tar_file/fedora-release-22.tar.bz2/filenames
 
 .. code-block:: javascript
 
@@ -238,16 +218,15 @@ Common files
 It compares two or more packages by comparing sha256sum values of the filenames
 present in all the packages and returns the common files present in them along with their sha256sum values::
 
-    http://209.132.184.120/api/compare/package/common \
+    /api/compare/package/common \
         package=={package1} \
         package=={package2}
 
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 .. code-block:: javascript
 
-    http://209.132.184.120/api/compare/package/common \
+    /api/compare/package/common \
         package==ark \
         package==baloo
 
@@ -271,7 +250,7 @@ Different files
 It compares two or more packages by comparing sha256sum values of the filenames
 present in all the packages and returns different files present in them::
 
-    http://209.132.184.120/api/compare/package/difference \
+    /api/compare/package/difference \
         package=={package1} \
         package=={package2}
 
@@ -280,12 +259,11 @@ sha256sum value which are not common to all the packages. Number of dictionaries
 to the total number of packages.
 
 
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 .. code-block:: javascript
 
-    http://209.132.184.120/api/compare/package/difference \
+    /api/compare/package/difference \
         package==kamera \
         package==fedora-release
 
@@ -343,16 +321,15 @@ Common files
 It compares two or more tar_files by comparing the sha256sum of the filenames
 present in all the tar_files and returns common files present in them along with their sha256sum::
 
-    http://209.132.184.120/api/compare/tar_file/common \
+    /api/compare/tar_file/common \
         tar_file=={tar_file} \
         tar_file=={tar_file}
 
-Sample Results
-""""""""""""""
+**Sample Results:**
 
 .. code-block:: javascript
 
-    http://209.132.184.120/api/compare/tar_file/common \
+    /api/compare/tar_file/common \
         tar_file==fedora-release-21.tar.bz2 \
         tar_file==fedora-release-22.tar.bz2
 
@@ -373,12 +350,12 @@ Sample Results
 
 
 Different files
-"""""""""""""""
+```````````````
 
 It compares two or more tar_files by comparing sha256sum values of the filenames
 present in all the packages and returns different files present in them::
 
-    http://209.132.184.120/api/compare/package/difference \
+    /api/compare/package/difference \
         package=={package1} \
         package=={package2}
 
@@ -387,12 +364,11 @@ sha256sum value which are not common to all the packages. Number of dictionaries
 to the total number of packages.
 
 
-Sample Results
-""""""""""""""
+**Sample Results**
 
 .. code-block:: javascript
 
-    http://209.132.184.120/api/compare/tar_file/difference \
+    /api/compare/tar_file/difference \
         tar_file==fedora-release-21.tar.bz2 \
         tar_file==fedora-release-22.tar.bz2
 

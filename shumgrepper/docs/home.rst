@@ -1,88 +1,124 @@
 Overview
-""""""""
+========
 
 Shumgrepper queries from summershum's database which collects the md5sum, sha1sum,
 sha256sum of every file present in every package in Fedora. Shumgrepper will allow you to
 query by shum values like sha1sum, sha256sum, md5sum and tar_sum, find the files bundled within
-a package, compare different packages and tar_files, detect how many different copies of GPL license
-are present.
+a package, compare different packages and tar_files, search for a package and get the
+history of a package.
 
 User Interface
-""""""""""""""
+==============
 
 Query by hashes
-```````````````
+---------------
 This will return all the files in all the package matching this hash sum.
 
 sha1sum
 ```````
-.. code-block:: javascript
 
-    http://209.132.184.120/sha1/<sha1sum>
+The **/sha1/<sha1sum>** endpoint will returns files matching this sha1sum.
+
+Example::
+
+    /sha1/f83618056ae5601b74a75db03739dd3ec24292f5
+
 
 sha256sum
 `````````
 
-.. code-block:: javascript
+The **/sha1/<sha256sum>** endpoint will returns files matching this sha256sum.
 
-    http://209.132.184.120/sha256/<sha256sum>
+Example::
+
+    /sha256/e77b543aefd1595f159e541041a403c48a240913bc65ca5c4267df096f775eb6
+
 
 tarsum
 ``````
 
-.. code-block:: javascript
+The **/tar_sum/<tar_sum>** endpoint will returns files matching this tar_sum.
 
-    http://209.132.184.120/tar_sum/<tarsum>
+Example::
+
+    /tar_sum/4a31a53097eaf029df45dd36ab622a57
+
 
 md5sum
 ``````
-.. code-block:: javascript
 
-    http://209.132.184.120/md5/<md5sum>
+The **/md5/<md5sum>** endpoint will returns files matching this md5sum.
+
+Example::
+
+    /md5/f4aafb270c2f983f35b365aad5fe8870
+
 
 Packages List
-`````````````
+-------------
 
-This will list all the packages where each package links to its overview page.
+The **/packages** endpoint will list all the packages where each package 
+links to its overview page.
 
-.. code-block:: javascript
-
-    http://209.132.184.120/packages
 
 Package Overview
-""""""""""""""""
+----------------
 
-It will give the package overview by displaying the different versions of the package::
+The **/package/<package>** endpoint will give the package overview by displaying
+the different versions of the package.
 
-    http://209.132.184.120/package/<package>
+Example::
+
+    /package/fotoxx
+
 
 Files within a package
-""""""""""""""""""""""
+----------------------
 
-It determines the files bundled within a package. It returns
-file names for the files contained within a package::
+The **/package/<package>/filenames** determines the files bundled within a package. 
+It returns file names for the files contained within a package.
 
-    http://209.132.184.120/package/<package>/filenames
+Example::
+
+    /package/felix-gogo-command/filenames
+
 
 Files of a package version
-""""""""""""""""""""""""""
+--------------------------
 
 In order to get the files of a specific package version, you will have to query
-by tar_file. It returns file names for the files contained within a tar_file::
+by tar_file. The **/tar_file/<tar_file>/filenames** endpoint returns file names for
+the files contained within a tar_file.
 
-    http://209.132.184.120/tar_file/<tar_file>/filenames
+Example::
+
+    /tar_file/fotoxx-14.05.1.tar.gz/filenames
+
 
 Query by filename
-"""""""""""""""""
+-----------------
 
-It will return all the file details matching this filename::
+The **/filename/<filename>** endpoint will return all the file details matching this filename.
 
-    http://209.132.184.120/filename/<filename>
+Example::
 
+    /filename/appstream-glib-0.1.1%2Fdocs%2Fapi%2Fhtml%2FAsRelease.html
+
+
+History of a package
+--------------------
+
+The **/history/<package>** endpoint will give you the evolution of a package across its different versions. This will return a table
+which will display the files that are common to different versions and files that have changed along with
+their sha256sum.
+
+Example::
+
+    /history/fedora-repos
 
 
 Compare two or more tar_files
-"""""""""""""""""""""""""""""
+-----------------------------
 
 Common files
 ````````````
@@ -90,16 +126,16 @@ Common files
 It compares two or more tar_files by comparing the sha256sum of the filenames
 present in all the tar_files and returns common files present in them along with their sha256sum::
 
-    http://209.132.184.120/compare/common?tar_file={tar_file1}& \
-        tar_file={tar_file2}
+    /compare/common?tar_file={tar_file1}&tar_file={tar_file2}
 
 Example::
 
-    http://209.132.184.120/compare/common?tar_file=fedora-release-21.tar.bz2& \
+    /compare/common?tar_file=fedora-release-21.tar.bz2& \
         tar_file=fedora-release-22.tar.bz2
 
 It will return a table with common sha256sum values and the filenames corresponding to each
 package matching that sha256sum.
+
 
 Different files
 ```````````````
@@ -107,7 +143,7 @@ Different files
 It compares two or more tar_files by comparing sha256sum values of the filenames
 present in all the packages and returns different files present in them::
 
-    http://209.132.184.120/compare/difference?tar_file={tar_file1} \
+    /compare/difference?tar_file={tar_file1} \
         tar_file={tar_file2}
 
 
@@ -117,5 +153,6 @@ to that shasum otherwise it is left blank.
 
 Example::
 
-    http://209.132.184.120/compare/difference?tar_file=fedora-release-21.tar.bz2& \
+    /compare/difference?tar_file=fedora-release-21.tar.bz2& \
         tar_file=fedora-release-22.tar.bz2
+
