@@ -9,16 +9,22 @@
   <body>
     <div class="container-narrow">
       <div class="masthead">
-        <ul class="nav nav-pills pull-right">
+        <h3 class="muted title">shumgrepper</h3>
+        <form action="{{url_for('.search')}}" method="get" class="navbar-form navbar-right search-box">
+            <div class="form-group">
+            <input type="text" class="form-control" name="term"/>
+            <input type="submit" class="btn" value="Search"/>
+            </div>
+        </form>
+        </div>
+        <ul class="nav nav-tabs" role="tablist">
           <li><a href="{{ url_for('home') }}">Home</a></li>
           <li><a href="{{ url_for('list_all_packages') }}">Packages</a></li>
           <li><a href="{{ url_for('api') }}">API</a></li>
           <li><a href="https://github.com/fedora-infra/shumgrepper">Source</a></li>
           <li><a href="https://github.com/fedora-infra/shumgrepper/issues">Issues</a></li>
         </ul>
-        <h3 class="muted title">shumgrepper</h3>
-      </div>
-      </br></br></br></br>
+      </br></br>
       {% block content %}{% endblock %}
     </div>
   </body>
