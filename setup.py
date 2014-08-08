@@ -11,6 +11,21 @@ try:
 except IOError:
     long_description = ''
 
+def strip_comments(lines):
+    for line in lines:
+        line = line.strip()
+
+        if line.startswith('#'):
+            continue
+
+        if not line:
+            continue
+
+        if not '#' in line:
+            yield line
+        else:
+            yield line[:line.index('#')]
+
 def get_requires(filename="requirements.txt"):
     with open(filename, 'r') as f:
         return list(strip_comments(f.readlines()))
