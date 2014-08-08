@@ -11,25 +11,6 @@ try:
 except IOError:
     long_description = ''
 
-def strip_comments(lines):
-    for line in lines:
-        line = line.strip()
-
-        if line.startswith('#'):
-            continue
-
-        if not line:
-            continue
-
-        if not '#' in line:
-            yield line
-        else:
-            yield line[:line.index('#')]
-
-def get_requires(filename="requirements.txt"):
-    with open(filename, 'r') as f:
-        return list(strip_comments(f.readlines()))
-
 setup(
     name=PROJECT,
     version=VERSION,
@@ -57,7 +38,15 @@ setup(
     platforms=['Any'],
     scripts=[],
     provides=[],
-    install_requires=get_requires(),
+    install_requires=[
+                      "Flask",
+                      "fedmsg>=0.7.0",
+                      "fedmsg_meta_fedora_infrastructure",
+                      "M2Crypto",
+                      "M2ext",
+                      "docutils",
+                      "Flask-WTF",
+    ],
     namespace_packages=[],
     packages=find_packages(),
     include_package_data=True,
