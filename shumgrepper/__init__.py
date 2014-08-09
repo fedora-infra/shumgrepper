@@ -23,9 +23,10 @@ session = sm.create_session(
 
 app.config.from_object('default_config')
 
+from shumgrepper.doc_utils import load_docs
+
 import shumgrepper.api
 
-from shumgrepper.doc_utils import load_docs
 
 @app.route('/')
 def home():
@@ -34,6 +35,7 @@ def home():
         docs=load_docs(flask.request)
 
     )
+
 
 @app.route('/search/')
 def search():
@@ -44,8 +46,13 @@ def search():
     if not search_term.endswith('*'):
         search_term += '*'
 
-    return flask.redirect(flask.url_for('.list_all_packages',
-                                            motif=search_term))
+    return flask.redirect(
+        flask.url_for(
+            '.list_all_packages',
+            motif=search_term
+        )
+    )
+
 
 # list the names of packages
 @app.route('/packages')
@@ -93,7 +100,7 @@ def list_all_packages(motif=None):
 
     return flask.render_template(
         'list_all_packages.html',
-        packages = packages,
+        packages=packages,
         page=page,
         total_page=total_page
     )
@@ -106,8 +113,8 @@ def sha1sum(sha1):
     msg_list = JSONEncoder(messages)
 
     return flask.render_template(
-            'files.html',
-            all_files=msg_list
+        'files.html',
+        all_files=msg_list
     )
 
 
@@ -162,6 +169,7 @@ def tarball_filenames(tarball):
         count=len(file_list),
     )
 
+
 # request files data by filename
 @app.route('/filename/<path:filename>')
 def filename(filename):
@@ -182,8 +190,8 @@ def package_filenames(package):
 
     return flask.render_template(
         'package_filename.html',
-        all_files=file_list,
-        count=len(file_list),
+        all_files=messages,
+        count=len(messages),
     )
 
 
@@ -203,7 +211,7 @@ def package(package):
     )
 
 
-#compare and return filenames different in all tarballs
+# compare and return filenames different in all tarballs
 @app.route('/compare')
 @app.route('/compare/difference')
 def compare_difference():
@@ -239,13 +247,13 @@ def compare_difference():
 
     return flask.render_template(
         'compare.html',
-        all_files = results,
-        compared_values = tarballs,
-        length = length,
+        all_files=results,
+        compared_values=tarballs,
+        length=length,
     )
 
 
-#compare and return filenames common in tarballs
+# compare and return filenames common in tarballs
 @app.route('/compare/common')
 def compare_common():
     tarballs = flask.request.args.getlist('tarball', None)
@@ -272,9 +280,9 @@ def compare_common():
 
     return flask.render_template(
         'compare.html',
-        all_files = results,
-        compared_values = tarballs,
-        length = length,
+        all_files=results,
+        compared_values=tarballs,
+        length=length,
     )
 
 
@@ -287,7 +295,7 @@ def history(package):
         versions.append(message.tarball)
 
     versions = set(versions)
-    versions =  list(versions)
+    versions = list(versions)
 
     sha256_list = []
     messages_list = []
@@ -315,10 +323,11 @@ def history(package):
 
     return flask.render_template(
         "history.html",
-        results = results,
-        versions = versions,
-        length = len(versions),
+        results=results,
+        versions=versions,
+        length=len(versions),
     )
+
 
 # return packages having atleast a file matching the pattern
 @app.route('/pattern/<pattern>')
@@ -335,7 +344,6 @@ def pattern(pattern):
             package_list.append(package[0])
 
     return flask.render_template(
-            'pattern.html',
-            all_files=package_list,
+        'pattern.html',
+        all_files=package_list,
     )
-
