@@ -2,20 +2,19 @@
 
 {% block content %}
     <table class="table table-striped">
-    <tr>
+        <tr>
         {% for i in range(length) %}
             <th>{{ compared_values[i] }}</th>
         {% endfor %}
-            <th> sha256sum </th>
-    </tr>
-    {% for a_file in all_files %}
-    <tr>
-      {% for i in range(length+1) %}
-        <td>{{ a_file[i] }}</td>
-      {% endfor %}
-    </tr>
-    {% endfor %}
+        <th> sha256sum </th>
+        </tr>
+        {% for a_file in all_files %}
+            <tr>
+            {% for i in range(length+1) %}
+                <td>{{ a_file[i] }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
     </table>
-
 {% endblock %}
 
