@@ -2,9 +2,10 @@
 
 {% block content %}
     <h3>Total number of files present: {{count}}</h3>
+    <table class="table table-striped">
     {% for a_file in all_files %}
-            <li>{{ a_file }}</li>
+            <tr><td>{{ a_file }}</tr></td>
     {% endfor %}
-
+    </table>
 {% endblock %}
 
