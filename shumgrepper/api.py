@@ -2,15 +2,14 @@ import json
 import flask
 
 import summershum.model as sm
-
 from shumgrepper import app, session
-
 from shumgrepper.util import (
     JSONEncoder,
     to_dict
 )
 
 from shumgrepper.doc_utils import load_docs
+
 
 @app.route('/api')
 def api():
@@ -20,11 +19,12 @@ def api():
         docs=load_docs(flask.request)
     )
 
+
 @app.route('/api/packages')
 def api_packages():
     packages = sm.File.packages(session)
     package_list = []
-    for  package in packages:
+    for package in packages:
         package_list.append(package[0])
 
     return flask.Response(
@@ -36,7 +36,7 @@ def api_packages():
 @app.route('/api/sha1/<sha1>')
 def api_sha1sum(sha1):
     messages = sm.File.by_sha1(session, sha1)
-    #converts message into list of dict
+    # converts message into list of dict
     msg_list = JSONEncoder(messages)
 
     return flask.Response(
@@ -138,10 +138,9 @@ def api_compare_package_difference():
         for sha256 in common_sha256:
             messages.pop(sha256, None)
 
-
     return flask.Response(
-        response = json.dumps(messages_list),
-        mimetype = "application/json",
+        response=json.dumps(messages_list),
+        mimetype="application/json",
     )
 
 
@@ -167,8 +166,8 @@ def api_compare_package_common():
         results.append(result)
 
     return flask.Response(
-        response = json.dumps(results),
-        mimetype = "application/json",
+        response=json.dumps(results),
+        mimetype="application/json",
     )
 
 
@@ -191,8 +190,8 @@ def api_compare_tarball_difference():
             messages.pop(sha256, None)
 
     return flask.Response(
-        response = json.dumps(messages_list),
-        mimetype = "application/json",
+        response=json.dumps(messages_list),
+        mimetype="application/json",
     )
 
 
@@ -217,8 +216,7 @@ def api_compare_tarball_common():
             result[sha256] = messages[sha256]
         results.append(result)
 
-
     return flask.Response(
-        response = json.dumps(results),
-        mimetype = "application/json",
+        response=json.dumps(results),
+        mimetype="application/json",
     )

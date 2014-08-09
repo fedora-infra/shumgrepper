@@ -7,6 +7,7 @@ import markupsafe
 
 import shumgrepper
 
+
 def modify_rst(rst):
     """ Downgrade some of our rst directives if docutils is too old. """
 
@@ -32,6 +33,7 @@ def modify_rst(rst):
 
     return rst
 
+
 def modify_html(html):
     """ Perform style substitutions where docutils doesn't do what we want.
     """
@@ -44,6 +46,7 @@ def modify_html(html):
         html = html.replace(old, new)
 
     return html
+
 
 def preload_docs(endpoint):
     """ Utility to load an RST file and turn it into fancy HTML. """
@@ -65,6 +68,7 @@ def preload_docs(endpoint):
 htmldocs = dict.fromkeys(['api', 'home'])
 for key in htmldocs:
     htmldocs[key] = preload_docs(key)
+
 
 def load_docs(request):
     URL = shumgrepper.app.config.get('SHUMGREPPER_BASE_URL', request.url_root)
