@@ -57,10 +57,11 @@ def search():
 # list the names of packages
 @app.route('/packages')
 @app.route('/packages/<motif>/')
-def list_all_packages(motif=None):
+def list_all_packages(motif=None, origin='list_all_packages', extension=None):
     pattern = flask.request.args.get('motif', motif) or '*'
     limit = flask.request.args.get('limit', app.config['ITEMS_PER_PAGE'])
     page = flask.request.args.get('page', 1)
+    extension = flask.request.args.get('extension', None)
 
     try:
         page = abs(int(page))
@@ -78,6 +79,7 @@ def list_all_packages(motif=None):
         pattern=pattern,
         limit=limit,
         page=page,
+        extension=extension,
     )
 
     packages_count = sm.File.get_all_packages(
@@ -86,6 +88,7 @@ def list_all_packages(motif=None):
         limit=limit,
         count=True,
         page=page,
+        extension=extension,
     )
 
     total_page = int(ceil(packages_count / float(limit)))
@@ -101,8 +104,11 @@ def list_all_packages(motif=None):
     return flask.render_template(
         'list_all_packages.html',
         packages=packages,
+        packages_count=packages_count,
         page=page,
-        total_page=total_page
+        total_page=total_page,
+        origin=origin,
+        extension=extension
     )
 
 
@@ -329,21 +335,4 @@ def history(package):
     )
 
 
-# return packages having atleast a file matching the pattern
-@app.route('/pattern/<pattern>')
-def pattern(pattern):
-    packages = sm.File.get_all_packages(
-        session,
-        pattern='*',
-    )
 
-    package_list = []
-    for package in packages:
-        files = sm.File.file_filter(session, package[0], pattern)
-        if files:
-            package_list.append(package[0])
-
-    return flask.render_template(
-        'pattern.html',
-        all_files=package_list,
-    )

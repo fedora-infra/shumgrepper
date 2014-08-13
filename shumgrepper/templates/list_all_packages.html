@@ -1,13 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h1>Search Packages</h1>
+    <p>{{packages_count}} packages found </p>
 
+    <form action="{{ url_for('.%s' % origin) }}" method="get">
+    Restrict to extension type:
+    <select name="extension">
+      <option value="" {% if not extension %} selected {% endif %}>All</option>
+      <option value=".jar" {% if extension == '.jar' %} selected {% endif %}>.jar</option>
+      <option value=".os" {% if extension == '.os' %} selected {% endif %}>.os</option>
+      <option value=".war" {% if extension == '.war' %} selected {% endif %}>.war</option>
+    </select> <br />
+    <input type="submit" class="submit positive button" value="filter">
+    </form>
     {% if total_page and total_page > 1 and total_page >= page %}
     <table>
         <tr>
             <td>
             {% if page > 1 %}
-                <a href="{{ url_for('list_all_packages') }}?page={{page - 1}}">
+                <a href="{{ url_for('.%s' % origin, page=page-1, extension=extension)}}">
                 < Previous
                 </a>
             {% else %}
@@ -17,7 +29,7 @@
             <td> {{ page }} / {{ total_page }} </td>
             <td>
                 {% if page < total_page %}
-                <a href="{{ url_for('list_all_packages') }}?page={{page + 1}}">
+                <a href="{{ url_for('.%s' % origin, page=page+1, extension=extension)}}">
                     Next >
                 </a>
                 {% else %}
@@ -39,7 +51,7 @@
             {% endfor %}
         {% elif total_page %}
         <li>Sorry, but the page you are requesting is unavailable. <br />
-            <a href="{{ url_for('list_all_packages') }}">
+            <a href="{{ url_for('.%s' % origin) }}">
                 Back to the list
             </a>
         </li>
