@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h4>Total versions available: {{count}}</h4>
+    <h5>Description</h5>
+    <a href={{'https://apps.fedoraproject.org/packages/'+ package}}>{{package}}</a>
+    <h5>Total versions available: {{count}}</h5>
     {% for a_file in all_files %}
         <li><a href="{{ url_for('tarball_filenames', tarball=a_file) }}">{{a_file}}</a></li>
     {% endfor %}

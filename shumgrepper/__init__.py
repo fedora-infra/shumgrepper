@@ -214,6 +214,7 @@ def package(package):
         'package.html',
         all_files=file_list,
         count=len(file_list),
+        package=package,
     )
 
 
