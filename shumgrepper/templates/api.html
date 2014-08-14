@@ -1,25 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style type="text/css">
-    .main {
-        margin: 60px 0;
-        text-align: center;
-        background-color: #F0F0F0;
-        border-radius: 0.4em;
-        padding-top: 0.4cm;
-        padding-bottom: 0.3cm;
-        padding-right, padding-left:0.2cm;
-    }
-</style>
 
 <div class="main">
-    <h1>API Documentation</h1>
-    <p class="lead">It will allow you to query from summershum's
-    database i.e. get files by sha1sum, sha256sum, md5sum and tarsum,
-    files bundled within a package and tarballs, identify different versions
-    of a package, compare packages and tarballs,&hellip; and much more. 
-    Responses will be served as application/json.</p>
+    <ul class="contents">
+        <li><b>Contents</b></li> 
+    <li>1 Query by shum </li>
+    <li class="level2">1.1 <a href="#sha1sum">sha1sum</a> </li>
+    <li class="level2">1.2 <a href="#sha256sum">sha256sum</a></li> 
+    <li class="level2">1.3 <a href="#md5sum">md5sum</a></li> 
+    <li class="level2">1.4 <a href="#tarsum">tarsum</a></li>
+    <li>2 <a href="#package-details">Package Details</a></li>
+    <li>3 <a href="#files-of-a-package">Files of a Package</a></li>
+    <li>4 <a href="#files-of-a-package-version">Files of a tarball</a></li>
+    <li>5 Compare Packages </li>
+        <li class="level2">5.1 <a href="#common-files">Common Files</a></li>
+        <li class="level2">5.2 <a href="#different-files">Different Files</a></li>
+    <li>6 Compare tarballs </li>
+        <li class="level2">6.1 <a href="#id1">Common Files</a></li>
+        <li class="level2">6.2 <a href="#id2">Different Files</a></li>
+    </ul>
 </div>
 
 <hr>

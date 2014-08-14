@@ -15,6 +15,7 @@ body {
     position: relative;
     top: 2px;
     border-bottom: 0.5px;
+    margin-left: -15px;
 }
 
 .container-narrow {
@@ -66,3 +67,25 @@ td {
     width: 100px;
     margin-left: 10px;
 }
+
+.contents {
+    text-align:left;
+    list-style-type:none;
+    margin-left:-15px;
+}
+
+.level2 {
+    margin-left:30px;
+}
+
+.main {
+    width: 210px;
+    margin: 60px 0;
+    text-align: center;
+    background-color: #F0F0F0;
+    border-radius: 0.4em;
+    padding-top: 0.4cm;
+    padding-bottom: 0.3cm;
+    padding-right, padding-left:0.2cm;
+}
+
