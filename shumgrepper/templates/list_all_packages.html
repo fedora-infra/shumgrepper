@@ -6,14 +6,15 @@
 
     <form action="{{ url_for('.%s' % origin) }}" method="get">
     Restrict to extension type:
-    <select name="extension">
+    <select name="extension" class="extension">
       <option value="" {% if not extension %} selected {% endif %}>All</option>
       <option value=".jar" {% if extension == '.jar' %} selected {% endif %}>.jar</option>
       <option value=".os" {% if extension == '.os' %} selected {% endif %}>.os</option>
       <option value=".war" {% if extension == '.war' %} selected {% endif %}>.war</option>
-    </select> <br />
-    <input type="submit" class="submit positive button" value="filter">
+    </select>
+    <input type="submit" class="submit positive button filter" value="Filter">
     </form>
+    </br></br>
     {% if total_page and total_page > 1 and total_page >= page %}
     <table>
         <tr>
@@ -40,7 +41,7 @@
         </tr>
     </table>
     {% endif %}
-
+</br>
     <ul>
         {% if total_page >= page and page > 0 %}
             {% for package in packages %}
