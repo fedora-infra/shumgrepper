@@ -7,8 +7,6 @@ from math import ceil
 import summershum.model as sm
 from shumgrepper.doc_utils import load_docs
 
-#import shumgrepper.api
-
 from shumgrepper.util import (
     JSONEncoder,
     to_dict
@@ -333,3 +331,5 @@ def history(package):
         versions=versions,
         length=len(versions),
     )
+
+import shumgrepper.api
