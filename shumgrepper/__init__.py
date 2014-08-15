@@ -5,6 +5,9 @@ import fedmsg.meta
 
 from math import ceil
 import summershum.model as sm
+from shumgrepper.doc_utils import load_docs
+
+#import shumgrepper.api
 
 from shumgrepper.util import (
     JSONEncoder,
@@ -22,10 +25,6 @@ session = sm.create_session(
     )
 
 app.config.from_object('default_config')
-
-from shumgrepper.doc_utils import load_docs
-
-import shumgrepper.api
 
 
 @app.route('/')
@@ -334,6 +333,3 @@ def history(package):
         versions=versions,
         length=len(versions),
     )
-
-
-

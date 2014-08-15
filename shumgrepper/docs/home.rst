@@ -57,7 +57,7 @@ Example::
 Packages List
 -------------
 
-The **/packages** endpoint will list all the packages where each package 
+The **/packages** endpoint will list all the packages where each package
 links to its overview page.
 
 
@@ -75,7 +75,7 @@ Example::
 Files within a package
 ----------------------
 
-The **/package/<package>/filenames** determines the files bundled within a package. 
+The **/package/<package>/filenames** determines the files bundled within a package.
 It returns file names for the files contained within a package.
 
 Example::
