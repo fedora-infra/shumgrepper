@@ -2,7 +2,7 @@
 
 PROJECT = 'shumgrepper'
 
-VERSION = '0.1'
+VERSION = '0.0.1'
 
 from setuptools import setup, find_packages
 
