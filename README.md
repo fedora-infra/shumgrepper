@@ -23,6 +23,9 @@ Hacking on shumgrepper
 #####Install dependencies:
 
     $ python setup.py build
+
+#####Install shumgrepper (if desired)
+
     $ python setup.py install
  
 #####Setting up database:
