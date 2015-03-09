@@ -27,7 +27,7 @@ Example::
 sha256sum
 `````````
 
-The **/sha1/<sha256sum>** endpoint will returns files matching this sha256sum.
+The **/sha256/<sha256sum>** endpoint will returns files matching this sha256sum.
 
 Example::
 
