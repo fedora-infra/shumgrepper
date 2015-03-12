@@ -162,9 +162,7 @@ def tar_sum(tar_sum):
 def tarball_filenames(tarball):
     messages = sm.File.by_tarball(session, tarball)
 
-    file_list = []
-    for message in messages:
-        file_list.append(message.filename)
+	file_list = map(lambda x: x.filename), messages)
 
     return flask.render_template(
         'package_filename.html',
@@ -202,12 +200,10 @@ def package_filenames(package):
 @app.route('/package/<package>')
 def package(package):
     messages = sm.File.by_package(session, package)
-    file_list = []
-    for message in messages:
-        file_list.append(message.tarball)
 
-    file_list = set(file_list)
-    return flask.render_template(
+	file_list = set(map(lambda x: x.tarball), messages))
+
+	return flask.render_template(
         'package.html',
         all_files=file_list,
         count=len(file_list),
@@ -221,20 +217,12 @@ def package(package):
 def compare_difference():
     tarballs = flask.request.args.getlist('tarball', None)
 
-    messages_list = []
-    for tarball in tarballs:
-        messages = sm.File.by_tarball(session, tarball)
-        if messages:
-            messages = to_dict(messages)
-            messages_list.append(messages)
+	messages_list = filter(lambda x:bool(sm.File.by_tarball(session, x)), tarballs)
 
-    # calculate uncommon sha256sum
     common_sha256 = set.intersection(*map(set, messages_list))
-    uncommon_sha256 = []
-    for messages in messages_list:
-        diff = set(messages.keys()) - set(common_sha256)
-        for sha256 in diff:
-            uncommon_sha256.append(sha256)
+
+	# calculate uncommon sha256sum
+    uncommon_sha256 = map(lambda x: set(x.keys())-set(common_sha256), messages_list)
 
     # calculate final results
     length = len(tarballs)
@@ -261,22 +249,17 @@ def compare_difference():
 @app.route('/compare/common')
 def compare_common():
     tarballs = flask.request.args.getlist('tarball', None)
-    messages_list = []
-    for tarball in tarballs:
-        messages = sm.File.by_tarball(session, tarball)
-        if messages:
-            messages = to_dict(messages)
-            messages_list.append(messages)
 
-    # calculate common sha256 sum in messages_list
+	messages_list = filter(lambda x:to_dict(bool(sm.File.by_tarball(session, tarball))), tarballs)
+
+	# calculate common sha256 sum in messages_list
     common_sha256 = set.intersection(*map(set, messages_list))
 
     # calculate final results
-    length = len(tarballs)
     results = []
     for sha256 in common_sha256:
         result = []
-        for i in range(length):
+        for i in range(len(tarballs):
             if sha256 in messages_list[i]:
                 result.append(messages_list[i][sha256])
         result.append(sha256)
@@ -286,7 +269,7 @@ def compare_common():
         'compare.html',
         all_files=results,
         compared_values=tarballs,
-        length=length,
+        length=len(tarballs),
     )
 
 
@@ -294,12 +277,8 @@ def compare_common():
 @app.route('/history/<package>')
 def history(package):
     messages = sm.File.by_package(session, package)
-    versions = []
-    for message in messages:
-        versions.append(message.tarball)
 
-    versions = set(versions)
-    versions = list(versions)
+	versions = list(set(map(lambda x: x.tarball), messages)))
 
     sha256_list = []
     messages_list = []
@@ -311,8 +290,7 @@ def history(package):
                 msg_dict[message.sha256sum] = message.filename
                 sha256_list.append(message.sha256sum)
             messages_list.append(msg_dict)
-    sha256_list = set(sha256_list)
-    sha256_list = list(sha256_list)
+    sha256_list = list(set(sha256_list))
 
     results = []
     for sha256 in sha256_list:
