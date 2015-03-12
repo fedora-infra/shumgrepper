@@ -162,7 +162,7 @@ def tar_sum(tar_sum):
 def tarball_filenames(tarball):
     messages = sm.File.by_tarball(session, tarball)
 
-	file_list = map(lambda x: x.filename), messages)
+    file_list = map(lambda x: x.filename), messages)
 
     return flask.render_template(
         'package_filename.html',
@@ -201,9 +201,9 @@ def package_filenames(package):
 def package(package):
     messages = sm.File.by_package(session, package)
 
-	file_list = set(map(lambda x: x.tarball), messages))
+    file_list = set(map(lambda x: x.tarball), messages))
 
-	return flask.render_template(
+    return flask.render_template(
         'package.html',
         all_files=file_list,
         count=len(file_list),
@@ -217,11 +217,11 @@ def package(package):
 def compare_difference():
     tarballs = flask.request.args.getlist('tarball', None)
 
-	messages_list = filter(lambda x:bool(sm.File.by_tarball(session, x)), tarballs)
+    messages_list = filter(lambda x:bool(sm.File.by_tarball(session, x)), tarballs)
 
     common_sha256 = set.intersection(*map(set, messages_list))
 
-	# calculate uncommon sha256sum
+    # calculate uncommon sha256sum
     uncommon_sha256 = map(lambda x: set(x.keys())-set(common_sha256), messages_list)
 
     # calculate final results
@@ -250,9 +250,9 @@ def compare_difference():
 def compare_common():
     tarballs = flask.request.args.getlist('tarball', None)
 
-	messages_list = filter(lambda x:to_dict(bool(sm.File.by_tarball(session, tarball))), tarballs)
+    messages_list = filter(lambda x:to_dict(bool(sm.File.by_tarball(session, tarball))), tarballs)
 
-	# calculate common sha256 sum in messages_list
+    # calculate common sha256 sum in messages_list
     common_sha256 = set.intersection(*map(set, messages_list))
 
     # calculate final results
@@ -278,7 +278,7 @@ def compare_common():
 def history(package):
     messages = sm.File.by_package(session, package)
 
-	versions = list(set(map(lambda x: x.tarball), messages)))
+    versions = list(set(map(lambda x: x.tarball), messages)))
 
     sha256_list = []
     messages_list = []
