@@ -42,8 +42,6 @@ setup(
         "Flask",
         "fedmsg>=0.7.0",
         "fedmsg_meta_fedora_infrastructure",
-        "M2Crypto",
-        "M2ext",
         "docutils",
         "Flask-WTF",
     ],
