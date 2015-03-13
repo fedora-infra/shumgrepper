@@ -201,7 +201,7 @@ def package_filenames(package):
 def package(package):
     messages = sm.File.by_package(session, package)
 
-    file_list = set(map(lambda x: x.tarball), messages))
+    file_list = set(map(lambda x: x.tarball, messages))
 
     return flask.render_template(
         'package.html',
@@ -278,7 +278,7 @@ def compare_common():
 def history(package):
     messages = sm.File.by_package(session, package)
 
-    versions = list(set(map(lambda x: x.tarball), messages)))
+    versions = list(set(map(lambda x: x.tarball, messages)))
 
     sha256_list = []
     messages_list = []
