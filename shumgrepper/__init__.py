@@ -162,7 +162,7 @@ def tar_sum(tar_sum):
 def tarball_filenames(tarball):
     messages = sm.File.by_tarball(session, tarball)
 
-    file_list = map(lambda x: x.filename), messages)
+    file_list = map(lambda x: x.filename, messages)
 
     return flask.render_template(
         'package_filename.html',
