@@ -259,7 +259,7 @@ def compare_common():
     results = []
     for sha256 in common_sha256:
         result = []
-        for i in range(len(tarballs):
+        for i in range(len(tarballs)):
             if sha256 in messages_list[i]:
                 result.append(messages_list[i][sha256])
         result.append(sha256)
