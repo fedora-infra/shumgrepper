@@ -107,15 +107,12 @@ def api_package_filenames(package):
 
 @app.route('/api/package/<package>')
 def api_package(package):
-    messages = sm.File.by_package(session, package)
-    file_list = []
-    for message in messages:
-        file_list.append(message.tarball)
+    tarball_list = sm.File.package_tarball(session, package)
 
-    file_list = set(file_list)
+    tarball_list = [tarball[0] for tarball in tarball_list]
 
     return flask.Response(
-        response=json.dumps(list(file_list)),
+        response=json.dumps(list(tarball_list)),
         mimetype="application/json",
     )
 
