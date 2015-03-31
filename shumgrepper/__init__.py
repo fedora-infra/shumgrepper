@@ -199,14 +199,14 @@ def package_filenames(package):
 # returns the versions available for a package
 @app.route('/package/<package>')
 def package(package):
-    messages = sm.File.by_package(session, package)
+    tarball_list = sm.File.package_tarball(session, package)
 
-    file_list = set(map(lambda x: x.tarball, messages))
+    tarball_list = [tarball[0] for tarball in tarball_list]
 
     return flask.render_template(
         'package.html',
-        all_files=file_list,
-        count=len(file_list),
+        all_files=tarball_list,
+        count=len(tarball_list),
         package=package,
     )
 
