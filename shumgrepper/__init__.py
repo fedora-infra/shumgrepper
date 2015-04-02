@@ -160,14 +160,14 @@ def tar_sum(tar_sum):
 # request files by tarsum
 @app.route('/tarball/<tarball>/filenames')
 def tarball_filenames(tarball):
-    messages = sm.File.by_tarball(session, tarball)
+    filenames = sm.File.tarball_filenames(session, tarball)
 
-    file_list = map(lambda x: x.filename, messages)
+    filename_list = [filename[0][1:] for filename in filenames]
 
     return flask.render_template(
         'package_filename.html',
-        all_files=file_list,
-        count=len(file_list),
+        all_files=filename_list,
+        count=len(filename_list),
     )
 
 
