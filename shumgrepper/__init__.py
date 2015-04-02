@@ -175,6 +175,7 @@ def tarball_filenames(tarball):
 @app.route('/filename/<path:filename>')
 def filename(filename):
     filename = '/' + filename
+
     messages = sm.File.by_filename(session, filename)
     msg_list = JSONEncoder(messages)
 
@@ -187,12 +188,14 @@ def filename(filename):
 # list filenames present in a package
 @app.route('/package/<package>/filenames')
 def package_filenames(package):
-    messages = sm.File.package_filenames(session, package)
+    filenames = sm.File.package_filenames(session, package)
+
+    filename_list = [filename[0][1:] for filename in filenames]
 
     return flask.render_template(
         'package_filename.html',
-        all_files=messages,
-        count=len(messages),
+        all_files=filename_list,
+        count=len(filename_list),
     )
 
 
