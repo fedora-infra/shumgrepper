@@ -111,6 +111,7 @@ def list_all_packages(motif=None, origin='list_all_packages', extension=None):
 
 # request files by sha1sum
 @app.route('/sha1/<sha1>')
+@app.route('/sha1sum/<sha1>')
 def sha1sum(sha1):
     messages = sm.File.by_sha1(session, sha1)
     msg_list = JSONEncoder(messages)
@@ -123,6 +124,7 @@ def sha1sum(sha1):
 
 # request files by md5sum
 @app.route('/md5/<md5>')
+@app.route('/md5sum/<md5>')
 def md5sum(md5):
     messages = sm.File.by_md5(session, md5)
     msg_list = JSONEncoder(messages)
@@ -135,6 +137,7 @@ def md5sum(md5):
 
 # request files by sha256sum
 @app.route('/sha256/<sha256>')
+@app.route('/sha256sum/<sha256>')
 def sha256sum(sha256):
     messages = sm.File.by_sha256(session, sha256)
     msg_list = JSONEncoder(messages)
