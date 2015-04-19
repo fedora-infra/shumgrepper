@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Package:</th>
+            <td>{{ package }}</td>
+        </tr>
+        <tr>
+            <th>Tarsum:</th>
+            <td>{{ tar_sum }}</td>
+        </tr>
+        <tr>
+            <th>Version:</th>
+            <td>{{ version }}</td>
+        </tr>
+        {% if previous_version %}
+        <tr>
+            <th>Previous version:</th>
+            <td><a href="{{ url_for('tarball_filenames',tarball=previous_version) }}">{{ previous_version }}</a></td>
+        </tr>
+        {% endif %}
+        {% if next_version %}
+        <tr>
+            <th>Next version:</th>
+            <td><a href="{{ url_for('tarball_filenames',tarball=next_version) }}">{{ next_version }}</a></td>
+        </tr>
+        {% endif %}
+    </table>
+
+{% endblock %}
