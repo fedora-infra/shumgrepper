@@ -34,6 +34,7 @@ def api_packages():
 
 
 @app.route('/api/sha1/<sha1>')
+@app.route('/api/sha1sum/<sha1>')
 def api_sha1sum(sha1):
     messages = sm.File.by_sha1(session, sha1)
     # converts message into list of dict
@@ -46,6 +47,7 @@ def api_sha1sum(sha1):
 
 
 @app.route('/api/md5/<md5>')
+@app.route('/api/md5sum/<md5>')
 def api_md5sum(md5):
     messages = sm.File.by_md5(session, md5)
     msg_list = JSONEncoder(messages)
@@ -57,6 +59,7 @@ def api_md5sum(md5):
 
 
 @app.route('/api/sha256/<sha256>')
+@app.route('/api/sha256sum/<sha256>')
 def api_sha256sum(sha256):
     messages = sm.File.by_sha256(session, sha256)
     msg_list = JSONEncoder(messages)

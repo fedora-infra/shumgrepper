@@ -39,11 +39,11 @@ setup(
     scripts=[],
     provides=[],
     install_requires=[
-        "Flask",
         "fedmsg>=0.7.0",
         "fedmsg_meta_fedora_infrastructure",
         "docutils",
         "Flask-WTF",
+        "Flask",
     ],
     namespace_packages=[],
     packages=find_packages(),

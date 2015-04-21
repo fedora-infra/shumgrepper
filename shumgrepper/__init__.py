@@ -111,6 +111,7 @@ def list_all_packages(motif=None, origin='list_all_packages', extension=None):
 
 # request files by sha1sum
 @app.route('/sha1/<sha1>')
+@app.route('/sha1sum/<sha1>')
 def sha1sum(sha1):
     messages = sm.File.by_sha1(session, sha1)
     msg_list = JSONEncoder(messages)
@@ -123,6 +124,7 @@ def sha1sum(sha1):
 
 # request files by md5sum
 @app.route('/md5/<md5>')
+@app.route('/md5sum/<md5>')
 def md5sum(md5):
     messages = sm.File.by_md5(session, md5)
     msg_list = JSONEncoder(messages)
@@ -135,6 +137,7 @@ def md5sum(md5):
 
 # request files by sha256sum
 @app.route('/sha256/<sha256>')
+@app.route('/sha256sum/<sha256>')
 def sha256sum(sha256):
     messages = sm.File.by_sha256(session, sha256)
     msg_list = JSONEncoder(messages)
@@ -156,6 +159,39 @@ def tar_sum(tar_sum):
         all_files=msg_list
     )
 
+@app.route('/tarball/<tarball>')
+def tarball_info(tarball):
+    # query file object to get package name and tar_sum
+    message = sm.File.tarball_info(session, tarball)
+    # query all the versions of tarball's package
+    # it returns a list of tuples
+    tarballs = sm.File.package_tarball(session, message.pkg_name)
+
+    # get all the tarballs name in a list
+    tarballs_list = [x[0] for x in tarballs]
+    # find index to get version of the tarball
+    index = tarballs_list.index(tarball)
+
+    # check if version is the first version
+    if index == 0:
+        previous_version = None
+    else:
+        previous_version = tarballs_list[index-1]
+
+    #check if version is the last version
+    if index == len(tarballs_list)-1:
+        next_version = None
+    else:
+        next_version = tarballs_list[index+1]
+
+    return flask.render_template(
+        'tarball_info.html',
+        package=message.pkg_name,
+        tar_sum=message.tar_sum,
+        version=index+1,
+        previous_version=previous_version,
+        next_version=next_version
+    )
 
 # request files by tarsum
 @app.route('/tarball/<tarball>/filenames')
