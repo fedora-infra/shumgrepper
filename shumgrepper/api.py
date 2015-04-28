@@ -81,29 +81,35 @@ def api_tar_sum(tar_sum):
     )
 
 
-# request files by tarsum
+# request files by tarball
 @app.route('/api/tarball/<tarball>/filenames')
-def api_tarball(tarball):
-    messages = sm.File.by_tarball(session, tarball)
-    file_list = []
-    for message in messages:
-        file_list.append(message.filename)
+def api_tarball_filenames(tarball):
+    # returns a list of tuples
+    filenames = sm.File.tarball_filenames(session, tarball)
+
+    # [0] to get the first element of tuple i.e. filename
+    # [1:] to remove '/' from filename 0th position
+    # This will allow querying by filename and get file data
+    filename_list = [filename[0][1:] for filename in filenames]
 
     return flask.Response(
-        response=json.dumps(file_list),
+        response=json.dumps(filename_list),
         mimetype="application/json",
     )
 
 
 @app.route('/api/package/<package>/filenames')
 def api_package_filenames(package):
-    messages = sm.File.by_package(session, package)
-    file_list = []
-    for message in messages:
-        file_list.append(message.filename)
+    # returns a list of tuples
+    filenames = sm.File.package_filenames(session, package)
+
+    # [0] to get the first element of tuple i.e. filename
+    # [1:] to remove '/' from filename 0th position
+    # This will allow querying by filename and get file data
+    filename_list = [filename[0][1:] for filename in filenames]
 
     return flask.Response(
-        response=json.dumps(file_list),
+        response=json.dumps(filename_list),
         mimetype="application/json",
     )
 

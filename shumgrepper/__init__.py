@@ -196,14 +196,18 @@ def tarball_info(tarball):
 # request files by tarsum
 @app.route('/tarball/<tarball>/filenames')
 def tarball_filenames(tarball):
-    messages = sm.File.by_tarball(session, tarball)
+    # returns a list of tuples
+    filenames = sm.File.tarball_filenames(session, tarball)
 
-    file_list = map(lambda x: x.filename, messages)
+    # [0] to get the first element of tuple i.e. filename
+    # [1:] to remove '/' from filename 0th position
+    # This will allow querying by filename and get file data
+    filename_list = [filename[0][1:] for filename in filenames]
 
     return flask.render_template(
         'package_filename.html',
-        all_files=file_list,
-        count=len(file_list),
+        all_files=filename_list,
+        count=len(filename_list),
     )
 
 
