@@ -8,7 +8,7 @@ Hacking on shumgrepper
 
 ###Prerequisites
 
-    * virtualenvwrapper
+* virtualenvwrapper
     
 #####Install virtualenvwrapper:
 
